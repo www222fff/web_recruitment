@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Job } from '@/lib/types';
-import { MapPin, CircleDollarSign, CalendarDays, Clock, Phone, Copy } from 'lucide-react';
+import { MapPin, JapaneseYen, CalendarDays, Clock, Phone, Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 type JobCardProps = {
@@ -59,7 +59,7 @@ export function JobCard({ job }: JobCardProps) {
           <span>{job.location}</span>
         </div>
         <div className="flex items-center text-muted-foreground">
-          <CircleDollarSign className="w-4 h-4 mr-2" />
+          <JapaneseYen className="w-4 h-4 mr-2" />
           <span className="font-semibold text-primary">{job.salary}</span>
         </div>
         <div className="flex items-center text-muted-foreground">
