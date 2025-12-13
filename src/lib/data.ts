@@ -12,6 +12,7 @@ export const mockJobs: Job[] = [
     salary: '300-450元/天',
     type: '全职',
     description: '负责大型商业综合体项目的主体结构施工，要求熟悉图纸，有高层建筑经验者优先。提供五险一金和住宿。',
+    duration: '90天',
   },
   {
     id: '2',
@@ -21,6 +22,7 @@ export const mockJobs: Job[] = [
     salary: '400-600元/天',
     type: '全职',
     description: '需要持有6G焊工证，精通TIG和MIG焊接工艺，负责船舶关键部件的焊接。有压力容器焊接经验者优先。',
+    duration: '长期',
   },
   {
     id: '3',
@@ -30,6 +32,7 @@ export const mockJobs: Job[] = [
     salary: '350-550元/天',
     type: '合同工',
     description: '参与长江大桥的钢结构铆接工作，要求熟练使用风动铆钉枪，能够高空作业，身体素质好。',
+    duration: '180天',
   },
   {
     id: '4',
@@ -39,6 +42,7 @@ export const mockJobs: Job[] = [
     salary: '330-500元/天',
     type: '全职',
     description: '负责超高层写字楼的玻璃幕墙和金属板幕墙安装，需要有相关高空作业证件和经验。',
+    duration: '120天',
   },
   {
     id: '5',
@@ -48,6 +52,7 @@ export const mockJobs: Job[] = [
     salary: '280-430元/天',
     type: '全职',
     description: '此职位更偏向技术岗，要求建筑工背景。负责将设计蓝图转化为详细的、可施工的钢结构制造和安装图纸。',
+    duration: '长期',
   },
   {
     id: '6',
@@ -57,6 +62,7 @@ export const mockJobs: Job[] = [
     salary: '450-650元/天',
     type: '全职',
     description: '负责国家级天然气管道项目的焊接工作，要求有下向焊和全自动焊经验，能适应野外作业环境。',
+    duration: '2-3年',
   },
   {
     id: '7',
@@ -66,6 +72,7 @@ export const mockJobs: Job[] = [
     salary: '320-450元/天',
     type: '合同工',
     description: '负责地铁站项目的模板搭建和拆除工作，需要精确理解施工图纸，保证混凝土浇筑质量。',
+    duration: '60天',
   },
   {
     id: '8',
@@ -75,6 +82,7 @@ export const mockJobs: Job[] = [
     salary: '330-570元/天',
     type: '全职',
     description: '负责飞机机翼和机身的精密铆接工作。要求极高的责任心和精确度，有相关经验者优先考虑。',
+    duration: '长期',
   },
   {
     id: '9',
@@ -84,6 +92,7 @@ export const mockJobs: Job[] = [
     salary: '400-570元/天',
     type: '全职',
     description: '需要持有有效的塔式起重机操作证，负责大型住宅区项目的物料垂直运输。安全意识强者优先。',
+    duration: '长期',
   },
   {
     id: '10',
@@ -93,5 +102,6 @@ export const mockJobs: Job[] = [
     salary: '300-470元/天',
     type: '全职',
     description: '专门负责食品级不锈钢容器和管道的焊接，要求焊缝美观，无泄漏。',
+    duration: '45天',
   },
 ];

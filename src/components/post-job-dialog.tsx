@@ -38,6 +38,7 @@ const formSchema = z.object({
   location: z.string({ required_error: '请选择工作地点' }),
   type: z.string({ required_error: '请选择工作类型' }),
   salary: z.string().min(3, { message: '请填写薪资范围' }),
+  duration: z.string().min(1, { message: '请填写用工天数' }),
   description: z.string().min(10, { message: '职位描述至少需要10个字符' }),
 });
 
@@ -54,6 +55,7 @@ export function PostJobDialog({ isOpen, onOpenChange }: PostJobDialogProps) {
       title: '',
       company: '',
       salary: '',
+      duration: '',
       description: '',
     },
   });
@@ -149,19 +151,34 @@ export function PostJobDialog({ isOpen, onOpenChange }: PostJobDialogProps) {
                 )}
               />
             </div>
-            <FormField
-              control={form.control}
-              name="salary"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>薪资范围</FormLabel>
-                  <FormControl>
-                    <Input placeholder="例如：300-500元/天" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="salary"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>薪资范围</FormLabel>
+                    <FormControl>
+                      <Input placeholder="例如：300-500元/天" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="duration"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>用工天数</FormLabel>
+                    <FormControl>
+                      <Input placeholder="例如：90天 或 长期" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="description"
