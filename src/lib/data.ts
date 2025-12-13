@@ -13,6 +13,7 @@ export const mockJobs: Job[] = [
     type: '全职',
     description: '负责大型商业综合体项目的主体结构施工，要求熟悉图纸，有高层建筑经验者优先。提供五险一金和住宿。',
     duration: '90天',
+    workingPeriod: '7月-9月',
   },
   {
     id: '2',
@@ -33,6 +34,7 @@ export const mockJobs: Job[] = [
     type: '合同工',
     description: '参与长江大桥的钢结构铆接工作，要求熟练使用风动铆钉枪，能够高空作业，身体素质好。',
     duration: '180天',
+    workingPeriod: '6月-11月',
   },
   {
     id: '4',
@@ -43,6 +45,7 @@ export const mockJobs: Job[] = [
     type: '全职',
     description: '负责超高层写字楼的玻璃幕墙和金属板幕墙安装，需要有相关高空作业证件和经验。',
     duration: '120天',
+    workingPeriod: '8月-12月',
   },
   {
     id: '5',
@@ -73,6 +76,7 @@ export const mockJobs: Job[] = [
     type: '合同工',
     description: '负责地铁站项目的模板搭建和拆除工作，需要精确理解施工图纸，保证混凝土浇筑质量。',
     duration: '60天',
+    workingPeriod: '9月-10月',
   },
   {
     id: '8',
@@ -103,5 +107,6 @@ export const mockJobs: Job[] = [
     type: '全职',
     description: '专门负责食品级不锈钢容器和管道的焊接，要求焊缝美观，无泄漏。',
     duration: '45天',
+    workingPeriod: '7月-8月',
   },
 ];

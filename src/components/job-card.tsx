@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { Job } from '@/lib/types';
-import { Briefcase, MapPin, CircleDollarSign, CalendarDays } from 'lucide-react';
+import { Briefcase, MapPin, CircleDollarSign, CalendarDays, Clock } from 'lucide-react';
 
 type JobCardProps = {
   job: Job;
@@ -41,6 +41,12 @@ export function JobCard({ job, onApply }: JobCardProps) {
             <CalendarDays className="w-4 h-4 mr-2" />
             <span>用工天数: {job.duration}</span>
         </div>
+        {job.workingPeriod && (
+          <div className="flex items-center text-muted-foreground">
+              <Clock className="w-4 h-4 mr-2" />
+              <span>用工时段: {job.workingPeriod}</span>
+          </div>
+        )}
         <p className="text-sm text-muted-foreground pt-2 line-clamp-2">
           {job.description}
         </p>

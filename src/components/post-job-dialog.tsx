@@ -39,6 +39,7 @@ const formSchema = z.object({
   type: z.string({ required_error: '请选择工作类型' }),
   salary: z.string().min(3, { message: '请填写薪资范围' }),
   duration: z.string().min(1, { message: '请填写用工天数' }),
+  workingPeriod: z.string().optional(),
   description: z.string().min(10, { message: '职位描述至少需要10个字符' }),
 });
 
@@ -56,6 +57,7 @@ export function PostJobDialog({ isOpen, onOpenChange }: PostJobDialogProps) {
       company: '',
       salary: '',
       duration: '',
+      workingPeriod: '',
       description: '',
     },
   });
@@ -179,6 +181,19 @@ export function PostJobDialog({ isOpen, onOpenChange }: PostJobDialogProps) {
                 )}
               />
             </div>
+            <FormField
+              control={form.control}
+              name="workingPeriod"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>用工时段 (可选)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="例如：8月-12月" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="description"
