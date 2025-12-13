@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { Job } from '@/lib/types';
 import { MapPin, CircleDollarSign, CalendarDays, Clock, Phone, Copy } from 'lucide-react';
@@ -16,7 +15,6 @@ import { useToast } from '@/hooks/use-toast';
 
 type JobCardProps = {
   job: Job;
-  onViewDetails: (job: Job) => void;
 };
 
 const WeChatIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -32,7 +30,7 @@ const WeChatIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
   );
 
-export function JobCard({ job, onViewDetails }: JobCardProps) {
+export function JobCard({ job }: JobCardProps) {
   const { toast } = useToast();
 
   const handleCopy = (e: React.MouseEvent) => {
@@ -88,14 +86,11 @@ export function JobCard({ job, onViewDetails }: JobCardProps) {
            </div>
         )}
         
-        <p className="text-sm text-muted-foreground pt-2 line-clamp-2">
+        <p className="text-sm text-muted-foreground pt-2 whitespace-pre-wrap">
           {job.description}
         </p>
       </CardContent>
       <CardFooter>
-         <Button className="w-full" variant="outline" onClick={() => onViewDetails(job)}>
-            查看详情
-          </Button>
       </CardFooter>
     </Card>
   );

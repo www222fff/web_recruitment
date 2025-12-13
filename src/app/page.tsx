@@ -5,7 +5,6 @@ import type { Job } from '@/lib/types';
 import { mockJobs } from '@/lib/data';
 import { JobSearchFilters } from '@/components/job-search-filters';
 import { JobCard } from '@/components/job-card';
-import { JobDetailsDialog } from '@/components/job-details-dialog';
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -13,13 +12,6 @@ export default function Home() {
     type: 'all',
     location: 'all',
   });
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-
-  const handleViewDetails = (job: Job) => {
-    setSelectedJob(job);
-    setIsDetailsOpen(true);
-  };
 
   const filteredJobs = useMemo(() => {
     return mockJobs.filter(job => {
@@ -51,7 +43,7 @@ export default function Home() {
         {filteredJobs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 animate-in fade-in-50">
             {filteredJobs.map(job => (
-              <JobCard key={job.id} job={job} onViewDetails={handleViewDetails} />
+              <JobCard key={job.id} job={job} />
             ))}
           </div>
         ) : (
@@ -61,11 +53,6 @@ export default function Home() {
           </div>
         )}
       </div>
-      <JobDetailsDialog
-        job={selectedJob}
-        isOpen={isDetailsOpen}
-        onOpenChange={setIsDetailsOpen}
-      />
     </>
   );
 }
