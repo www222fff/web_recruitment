@@ -1,10 +1,34 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import type { Job } from '@/lib/types';
 import { mockJobs } from '@/lib/data';
 import { JobSearchFilters } from '@/components/job-search-filters';
-import { JobCard } from '@/components/job-card';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const JobCard = dynamic(() => import('@/components/job-card').then(mod => mod.JobCard), {
+  loading: () => <JobCardSkeleton />,
+  ssr: false,
+});
+
+function JobCardSkeleton() {
+    return (
+      <div className="p-4 border rounded-lg space-y-3">
+        <div className="flex justify-between">
+            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-6 w-1/6" />
+        </div>
+        <Skeleton className="h-4 w-1/2" />
+        <div className="space-y-2 pt-2">
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-4 w-2/3" />
+        </div>
+        <Skeleton className="h-10 w-full pt-2" />
+      </div>
+    );
+  }
 
 export default function Home() {
   const [filters, setFilters] = useState({
