@@ -1,6 +1,4 @@
-import lessons from '../data/lessons.json';
-import decks from '../data/flashcards.json';
-import dailyWords from '../data/dailyWords.json';
+import mockJobs from '../data/mockJobs.json';
 
 interface Env {
   DB: D1Database;
