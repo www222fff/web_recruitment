@@ -2,82 +2,12 @@ import { bootstrap } from './db';
 
 interface Env {
   DB: D1Database;
-  RESEND_API_KEY?: string;
 }
 
 // Utility functions
 function generateId(): string {
   return Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
 }
-
-function generateCode(): string {
-  return Math.random().toString().substring(2, 8);
-}
-
-function generateToken(): string {
-  return Array.from(crypto.getRandomValues(new Uint8Array(32)))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
-}
-
-async function hashPassword(password: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(hashBuffer))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
-}
-
-async function verifyPassword(password: string, hash: string): Promise<boolean> {
-  const passwordHash = await hashPassword(password);
-  return passwordHash === hash;
-}
-
-async function sendEmail(
-  to: string,
-  subject: string,
-  html: string,
-  env: Env
-): Promise<boolean> {
-  try {
-
-    // Try Resend
-    if (env.RESEND_API_KEY) {
-      console.log(`Attempting to send email to ${to} via Resend API`);
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'LingoDeutsch <danny@takeanything.store>',
-          to,
-          subject,
-          html,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        console.error(`Resend API error (${response.status}): ${errorData}`);
-        return false;
-      }
-
-      console.log(`Email successfully sent to ${to}`);
-      return true;
-    }
-
-    // Fallback: console log if no email service configured
-    console.log(`Email not sent - RESEND_API_KEY is not configured. Would send to ${to}: ${subject}`);
-    return true; // Return true to not block registration
-  } catch (error) {
-    console.error('Email send error:', error);
-    return true; // Don't fail registration if email fails
-  }
-}
-
 
 // ✅ CORS headers
 function corsHeaders() {
@@ -162,8 +92,19 @@ export default {
 
       // POST /jobs
       if (req.method === 'POST' && path === '/jobs') {
-        const body = await req.json();
-        const requiredFields = ['title', 'company', 'location', 'salary', 'type', 'description', 'duration'];
+        type JobBody = {
+          title: string;
+          company: string;
+          location: string;
+          salary: string;
+          type: string;
+          description: string;
+          duration: string;
+          workingPeriod?: string;
+          contactPhone?: string;
+        };
+        const body = await req.json() as JobBody;
+        const requiredFields: (keyof JobBody)[] = ['title', 'company', 'location', 'salary', 'type', 'description', 'duration'];
         for (const field of requiredFields) {
           if (!body[field]) {
             return json({ error: `Missing required field: ${field}` }, req, path, { status: 400 });
