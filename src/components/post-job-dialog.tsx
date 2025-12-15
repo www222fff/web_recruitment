@@ -197,19 +197,34 @@ export function PostJobDialog({ isOpen, onOpenChange, onJobPosted }: PostJobDial
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="workingPeriod"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>用工时段 (可选)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="例如：8月-12月" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="workingPeriod"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>用工时段 (可选)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="例如：8月-12月" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="contactPhone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>联系电话 (可选)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="请填写电话或微信号" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
                 name="description"
