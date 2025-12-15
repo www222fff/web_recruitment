@@ -19,9 +19,6 @@ CREATE TABLE IF NOT EXISTS jobs (
   workingPeriod TEXT,
   contactPhone TEXT
 );
-  created_at TEXT NOT NULL,
-  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
-);
 
 CREATE TABLE IF NOT EXISTS __migrations (
   key TEXT PRIMARY KEY,
