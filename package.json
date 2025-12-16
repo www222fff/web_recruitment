@@ -1,0 +1,17 @@
+{
+  "name": "web-recruitment-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "miniApp",
+    "worker"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w frontend",
+    "build": "npm run build -w frontend",
+    "dev:mini": "npm run dev:weapp -w miniApp",
+    "build:mini": "npm run build:weapp -w miniApp",
+    "dev:worker": "npm run dev -w worker"
+  }
+}
