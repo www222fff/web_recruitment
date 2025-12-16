@@ -1,4 +1,4 @@
-// src/app.scss
+@use 'sass:color';
 
 // ==================== 1. 自定义主题变量 ====================
 // 从你的 Web globals.css 提取的 SCSS 变量
@@ -68,7 +68,7 @@ view, text, image, button, input, textarea {
   height: auto;
 }
 .primary-button.button-hover {
-  background-color: darken($primary-action, 10%);
+  background-color: color.adjust($primary-action, $lightness: -10%);
 }
 
 // 去除小程序默认按钮边框
