@@ -1,0 +1,39 @@
+.pageContainer {
+  padding: 12px;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 16px;
+  padding: 16px 0;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--at-color-primary, #1890ff); // Use Taro UI primary color
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.jobList {
+  margin-top: 16px;
+}
+
+.loading, .noResults {
+  margin-top: 40px;
+  text-align: center;
+  color: #999;
+}
+
+.noResultsTitle {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
