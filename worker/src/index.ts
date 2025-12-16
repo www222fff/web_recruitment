@@ -74,6 +74,7 @@ function json(data: unknown, req?: Request, path?: string, init?: ResponseInit) 
 
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
+    let path = '';
     try {
       await bootstrap(env);
 
