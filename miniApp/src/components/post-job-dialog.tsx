@@ -1,11 +1,10 @@
-import { View, Picker } from '@tarojs/components';
-import { AtFloatLayout, AtForm, AtInput, AtButton, AtTextarea } from 'taro-ui';
+import { View, Picker, Input, Button, Text, Textarea } from '@tarojs/components';
 import { useState } from 'react';
 import Taro from '@tarojs/taro';
 import { createJob } from '@/lib/api';
 import { jobTypes, locations } from '@/lib/data';
 import type { Job } from '@/lib/types';
-
+import { X } from 'lucide-react';
 import './post-job-dialog.scss';
 
 type PostJobDialogProps = {
@@ -28,8 +27,12 @@ export function PostJobDialog({ isOpen, onClose }: PostJobDialogProps) {
     contactPhone: ''
   });
 
-  const handleChange = (field: keyof FormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  if (!isOpen) {
+    return null;
+  }
+
+  const handleChange = (field: keyof FormData, value: any) => {
+     setFormData(prev => ({ ...prev, [field]: value.detail ? value.detail.value : value }));
   };
 
   const handleLocationChange = e => {
@@ -87,8 +90,7 @@ export function PostJobDialog({ isOpen, onClose }: PostJobDialogProps) {
         title: '发布成功',
         icon: 'success',
       });
-      onClose(); // Close the dialog
-      // Use Taro's event center to notify the index page to refresh
+      onClose();
       Taro.eventCenter.trigger('jobPosted');
     } catch (error) {
       Taro.hideLoading();
@@ -99,45 +101,72 @@ export function PostJobDialog({ isOpen, onClose }: PostJobDialogProps) {
     }
   };
 
+  const FormItem = ({ label, children }) => (
+    <View className='form-item'>
+        <Text className='form-item__label'>{label}</Text>
+        <View className='form-item__control'>{children}</View>
+    </View>
+  )
+
   return (
-    <AtFloatLayout isOpened={isOpen} title="发布新的用工需求" onClose={onClose}>
-      <AtForm>
-        <AtInput name='title' title='职位名称' type='text' placeholder='例如：电焊工' value={formData.title} onChange={(v: string) => handleChange('title', v)} />
-        <AtInput name='company' title='公司名称' type='text' placeholder='您的公司或团队名称' value={formData.company} onChange={(v: string) => handleChange('company', v)} />
-        
-        <Picker mode='selector' range={locations} onChange={handleLocationChange}>
-          <View className='picker'>
-            <View className='picker__label'>工作地点</View>
-            <View className='picker__value'>{formData.location || '请选择'}</View>
-          </View>
-        </Picker>
-        
-        <Picker mode='selector' range={jobTypes} onChange={handleTypeChange}>
-           <View className='picker'>
-            <View className='picker__label'>工作类型</View>
-            <View className='picker__value'>{formData.type || '请选择'}</View>
-          </View>
-        </Picker>
-
-        <AtInput name='salary' title='薪资范围' type='text' placeholder='例如：300-500元/天' value={formData.salary} onChange={(v: string) => handleChange('salary', v)} />
-        <AtInput name='duration' title='用工天数' type='text' placeholder='例如：90天 或 长期' value={formData.duration} onChange={(v: string) => handleChange('duration', v)} />
-        <AtInput name='workingPeriod' title='用工时段' type='text' placeholder='(选填) 例如：8月-12月' value={formData.workingPeriod || ''} onChange={(v: string) => handleChange('workingPeriod', v)} />
-        <AtInput name='contactPhone' title='联系电话' type='text' placeholder='(选填) 请填写电话或微信号' value={formData.contactPhone || ''} onChange={(v: string) => handleChange('contactPhone', v)} />
-        
-        <View className='textarea-form-item'>
-          <Text className='textarea-label'>职位描述</Text>
-          <AtTextarea
-            value={formData.description}
-            onChange={(e) => handleChange('description', e)}
-            maxLength={300}
-            placeholder='详细描述工作内容、要求等...'
-          />
+    <View className='float-layout'>
+      <View className='float-layout__overlay' onClick={onClose} />
+      <View className='float-layout__container'>
+        <View className='float-layout__header'>
+            <Text className='float-layout__title'>发布新的用工需求</Text>
+            <View onClick={onClose} className='float-layout__close'>
+                <X size={20} color='#888' />
+            </View>
         </View>
+        <View className='form-content'>
+            <FormItem label='职位名称'>
+                <Input name='title' type='text' placeholder='例如：电焊工' value={formData.title} onInput={v => handleChange('title', v)} />
+            </FormItem>
+            <FormItem label='公司名称'>
+                <Input name='company' type='text' placeholder='您的公司或团队名称' value={formData.company} onInput={v => handleChange('company', v)} />
+            </FormItem>
+            
+            <Picker mode='selector' range={locations} onChange={handleLocationChange}>
+              <FormItem label='工作地点'>
+                <Text className={formData.location ? '' : 'placeholder'}>{formData.location || '请选择'}</Text>
+              </FormItem>
+            </Picker>
+            
+            <Picker mode='selector' range={jobTypes} onChange={handleTypeChange}>
+              <FormItem label='工作类型'>
+                <Text className={formData.type ? '' : 'placeholder'}>{formData.type || '请选择'}</Text>
+              </FormItem>
+            </Picker>
 
-        <View className='form-footer'>
-          <AtButton type='primary' onClick={handleSubmit}>确认发布</AtButton>
+            <FormItem label='薪资范围'>
+                <Input name='salary' type='text' placeholder='例如：300-500元/天' value={formData.salary} onInput={v => handleChange('salary', v)} />
+            </FormItem>
+            <FormItem label='用工天数'>
+                <Input name='duration' type='text' placeholder='例如：90天 或 长期' value={formData.duration} onInput={v => handleChange('duration', v)} />
+            </FormItem>
+             <FormItem label='用工时段'>
+                <Input name='workingPeriod' type='text' placeholder='(选填) 例如：8月-12月' value={formData.workingPeriod || ''} onInput={v => handleChange('workingPeriod', v)} />
+            </FormItem>
+            <FormItem label='联系电话'>
+                <Input name='contactPhone' type='text' placeholder='(选填) 请填写电话或微信号' value={formData.contactPhone || ''} onInput={v => handleChange('contactPhone', v)} />
+            </FormItem>
+            
+            <View className='form-item'>
+                <Text className='form-item__label'>职位描述</Text>
+                 <Textarea
+                    className='form-item__textarea'
+                    value={formData.description}
+                    onInput={e => handleChange('description', e)}
+                    maxlength={300}
+                    placeholder='详细描述工作内容、要求等...'
+                />
+            </View>
+
+            <View className='form-footer'>
+                <Button className='primary-button' onClick={handleSubmit}>确认发布</Button>
+            </View>
         </View>
-      </AtForm>
-    </AtFloatLayout>
+      </View>
+    </View>
   );
 }

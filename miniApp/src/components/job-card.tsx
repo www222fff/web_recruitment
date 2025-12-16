@@ -1,8 +1,8 @@
 import { View, Text } from '@tarojs/components';
-import { AtTag } from 'taro-ui';
 import type { Job } from '@/lib/types';
 import { MapPin, JapaneseYen, CalendarDays, Clock, Phone, Copy } from 'lucide-react';
 import Taro from '@tarojs/taro';
+import { Tag } from './tag';
 
 import './job-card.scss';
 
@@ -48,9 +48,7 @@ export function JobCard({ job }: JobCardProps) {
           <Text className='job-card__title'>{job.title}</Text>
           <Text className='job-card__company'>{job.company}</Text>
         </View>
-        <AtTag size='small' type='primary' circle>
-          {job.type}
-        </AtTag>
+        <Tag active>{job.type}</Tag>
       </View>
 
       <View className='job-card__body'>

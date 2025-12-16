@@ -1,6 +1,4 @@
 /// <reference types="@tarojs/taro" />
-/// <reference types="taro-ui/types/index.d.ts" />
-
 
 declare module '*.png';
 declare module '*.gif';

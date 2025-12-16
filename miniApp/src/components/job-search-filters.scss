@@ -9,12 +9,12 @@ $text-color-light: #4b5563;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   &__input {
-    // This targets the inner input element in taro-ui
-    .at-input__input {
-      background-color: #f3f4f6;
-      border-radius: 6px;
-      padding: 8px 12px;
-    }
+    background-color: #f3f4f6;
+    border-radius: 6px;
+    padding: 8px 12px;
+    width: 100%;
+    font-size: 15px;
+    margin-bottom: 12px;
   }
 
   &__tags-section {
@@ -27,7 +27,7 @@ $text-color-light: #4b5563;
     font-size: 14px;
     color: $text-color-light;
     margin-right: 8px;
-    padding-top: 4px; // Align with tags
+    padding-top: 5px; // Align with tags
     flex-shrink: 0;
   }
 
@@ -35,10 +35,5 @@ $text-color-light: #4b5563;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-
-    // Style for AtTag component
-    .at-tag {
-        margin: 0; // reset default margin
-    }
   }
 }

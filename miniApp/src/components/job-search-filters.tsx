@@ -1,8 +1,7 @@
-import { View, Text } from '@tarojs/components';
-import { AtInput, AtTag } from 'taro-ui';
-import { useState } from 'react';
+import { View, Text, Input } from '@tarojs/components';
 import type { Job } from '@/lib/types';
 import { jobTypes, locations } from '@/lib/data';
+import { Tag } from './tag';
 
 import './job-search-filters.scss';
 
@@ -17,9 +16,8 @@ type JobSearchFiltersProps = {
 
 export function JobSearchFilters({ filters, onFiltersChange }: JobSearchFiltersProps) {
 
-  const handleKeywordChange = (value: string) => {
-    onFiltersChange({ ...filters, keyword: value });
-    return value;
+  const handleKeywordChange = (e: any) => {
+    onFiltersChange({ ...filters, keyword: e.detail.value });
   };
 
   const handleTypeChange = (name: string) => {
@@ -34,63 +32,51 @@ export function JobSearchFilters({ filters, onFiltersChange }: JobSearchFiltersP
 
   return (
     <View className='search-filters'>
-      <AtInput
+      <Input
         name='keyword'
         type='text'
         placeholder='搜索职位、公司...'
         value={filters.keyword}
-        onChange={handleKeywordChange}
+        onInput={handleKeywordChange}
         className='search-filters__input'
       />
       <View className='search-filters__tags-section'>
         <Text className='search-filters__tags-label'>工种:</Text>
         <View className='search-filters__tags-container'>
-          <AtTag
-            name='all'
+          <Tag
             onClick={() => handleTypeChange('all')}
             active={filters.type === 'all'}
-            circle
-            size='small'
           >
             全部
-          </AtTag>
+          </Tag>
           {jobTypes.map(type => (
-            <AtTag
+            <Tag
               key={type}
-              name={type}
               onClick={() => handleTypeChange(type)}
               active={filters.type === type}
-              circle
-              size='small'
             >
               {type}
-            </AtTag>
+            </Tag>
           ))}
         </View>
       </View>
       <View className='search-filters__tags-section'>
         <Text className='search-filters__tags-label'>地区:</Text>
         <View className='search-filters__tags-container'>
-          <AtTag
-            name='all'
+           <Tag
             onClick={() => handleLocationChange('all')}
             active={filters.location === 'all'}
-            circle
-            size='small'
           >
             全部
-          </AtTag>
+          </Tag>
           {locations.map(location => (
-            <AtTag
+            <Tag
               key={location}
-              name={location}
               onClick={() => handleLocationChange(location)}
               active={filters.location === location}
-              circle
-              size='small'
             >
               {location}
-            </AtTag>
+            </Tag>
           ))}
         </View>
       </View>

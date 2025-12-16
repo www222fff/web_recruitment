@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { View, ScrollView, Text } from '@tarojs/components';
+import { View, ScrollView, Text, ActivityIndicator } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { JobCard } from '@/components/job-card';
 import type { Job } from '@/lib/types';
@@ -7,7 +7,6 @@ import { getJobs } from '@/lib/api';
 import { JobSearchFilters } from '@/components/job-search-filters';
 import { Header } from '@/components/header';
 import { PostJobDialog } from '@/components/post-job-dialog';
-import { AtActivityIndicator } from 'taro-ui';
 
 import './index.scss';
 
@@ -101,7 +100,7 @@ export default function Home() {
 
           {isLoading ? (
             <View className='loading-container'>
-              <AtActivityIndicator mode='center' content='加载中...' size={48} />
+              <ActivityIndicator mode='center' content='加载中...' size={48} />
             </View>
           ) : filteredJobs.length > 0 ? (
             <View className='job-list'>
