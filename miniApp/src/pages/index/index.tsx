@@ -1,31 +1,24 @@
-'use client';
-
 import { useState, useMemo, useEffect } from 'react';
-import { View } from '@tarojs/components';
+import { View, ScrollView, Text } from '@tarojs/components';
+import Taro from '@tarojs/taro';
 import { JobCard } from '@/components/job-card';
 import type { Job } from '@/lib/types';
 import { getJobs } from '@/lib/api';
 import { JobSearchFilters } from '@/components/job-search-filters';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Header } from '@/components/header';
+import { PostJobDialog } from '@/components/post-job-dialog';
+import { AtActivityIndicator } from 'taro-ui';
 
+import './index.scss';
 
-function JobCardSkeleton() {
-    return (
-      <View className="p-4 border rounded-lg space-y-3">
-        <View className="flex justify-between">
-            <Skeleton className="h-6 w-3/4" />
-            <Skeleton className="h-6 w-1/6" />
-        </View>
-        <Skeleton className="h-4 w-1/2" />
-        <View className="space-y-2 pt-2">
-            <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-4 w-2/3" />
-        </View>
-        <Skeleton className="h-10 w-full pt-2" />
-      </View>
-    );
-  }
+function NoResults() {
+  return (
+    <View className='no-results'>
+      <Text className='no-results__title'>没有找到匹配的职位</Text>
+      <Text className='no-results__subtitle'>请尝试调整您的搜索条件。</Text>
+    </View>
+  );
+}
 
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -35,43 +28,39 @@ export default function Home() {
     type: 'all',
     location: 'all',
   });
+  const [isPostJobOpen, setIsPostJobOpen] = useState(false);
+
+  const loadJobs = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getJobs();
+      setJobs(data);
+    } catch (error) {
+      console.error('Failed to load jobs:', error);
+      setJobs([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadJobs = async () => {
-      setIsLoading(true);
-      try {
-        const data = await getJobs();
-        setJobs(data);
-      } catch (error) {
-        console.error('Failed to load jobs:', error);
-        setJobs([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     loadJobs();
+    
+    // Listen for events to refresh data
+    const handleRefresh = () => loadJobs();
+    Taro.eventCenter.on('jobPosted', handleRefresh);
+    Taro.eventCenter.on('modeSwitched', handleRefresh);
 
-    const handleModeChange = () => {
-      loadJobs();
-    };
-
-    const handleJobPosted = () => {
-      loadJobs();
-    };
-
-    window.addEventListener('dataSourceModeChange', handleModeChange);
-    window.addEventListener('jobPosted', handleJobPosted);
     return () => {
-      window.removeEventListener('dataSourceModeChange', handleModeChange);
-      window.removeEventListener('jobPosted', handleJobPosted);
+      Taro.eventCenter.off('jobPosted', handleRefresh);
+      Taro.eventCenter.off('modeSwitched', handleRefresh);
     };
   }, []);
 
   const filteredJobs = useMemo(() => {
     return jobs.filter(job => {
       const keywordMatch =
-        filters.keyword === '' ||
+        !filters.keyword ||
         job.title.toLowerCase().includes(filters.keyword.toLowerCase()) ||
         job.company.toLowerCase().includes(filters.keyword.toLowerCase()) ||
         job.description.toLowerCase().includes(filters.keyword.toLowerCase());
@@ -83,37 +72,53 @@ export default function Home() {
     });
   }, [jobs, filters]);
 
+  const [headerHeight, setHeaderHeight] = useState(80);
+   useEffect(() => {
+    const query = Taro.createSelectorQuery();
+    query.select('.header').boundingClientRect(rect => {
+      if (rect) {
+        setHeaderHeight(rect.height);
+      }
+    }).exec();
+  }, []);
+
   return (
-    <>
-      <View className="container mx-auto rpx-4 py-8 md:rpx-6 md:py-12">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold font-headline text-secondary">寻找最适合您的工作</h1>
-          <p className="text-muted-foreground mt-2 text-lg">
-            数千个蓝领职位等着您，马上开始搜索。
-          </p>
-        </header>
+    <View className='index-page'>
+      <Header onPostJobClick={() => setIsPostJobOpen(true)} />
+      
+      <ScrollView
+        scrollY
+        className='scroll-view'
+        style={{ height: `calc(100vh - ${headerHeight}px)` }}
+      >
+        <View className='page-container'>
+          <View className='page-header'>
+            <Text className='page-header__title'>寻找最适合您的工作</Text>
+            <Text className='page-header__subtitle'>数千个蓝领职位等着您，马上开始搜索。</Text>
+          </View>
 
-        <JobSearchFilters filters={filters} onFiltersChange={setFilters} />
+          <JobSearchFilters filters={filters} onFiltersChange={setFilters} />
 
-        {isLoading ? (
-          <View className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 animate-in fade-in-50">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <JobCardSkeleton key={i} />
-            ))}
-          </View>
-        ) : filteredJobs.length > 0 ? (
-          <View className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 animate-in fade-in-50">
-            {filteredJobs.map(job => (
-              <JobCard key={job.id} job={job} />
-            ))}
-          </View>
-        ) : (
-          <View className="text-center mt-16 py-12 bg-card rounded-lg shadow-sm">
-              <h2 className="text-2xl font-semibold text-muted-foreground">没有找到匹配的职位</h2>
-              <p className="text-muted-foreground mt-2">请尝试调整您的搜索条件。</p>
-          </View>
-        )}
-      </View>
-    </>
+          {isLoading ? (
+            <View className='loading-container'>
+              <AtActivityIndicator mode='center' content='加载中...' size={48} />
+            </View>
+          ) : filteredJobs.length > 0 ? (
+            <View className='job-list'>
+              {filteredJobs.map(job => (
+                <JobCard key={job.id} job={job} />
+              ))}
+            </View>
+          ) : (
+            <NoResults />
+          )}
+        </View>
+      </ScrollView>
+
+      <PostJobDialog
+        isOpen={isPostJobOpen}
+        onClose={() => setIsPostJobOpen(false)}
+      />
+    </View>
   );
 }

@@ -1,0 +1,55 @@
+$primary-color: #5468ff;
+$border-color: #e5e7eb;
+$text-color-secondary: #6b7280;
+
+// This targets the content area of AtFloatLayout
+.at-float-layout__container {
+    padding-bottom: 20px; // Add space for the button
+}
+
+.picker {
+  display: flex;
+  align-items: center;
+  padding: 13px 16px;
+  border-bottom: 1px solid $border-color;
+  background-color: #fff;
+  font-size: 16px;
+
+  &__label {
+    width: 6.5em; // Align with AtInput's title width
+    color: #333;
+  }
+  
+  &__value {
+    color: #888;
+    flex: 1;
+  }
+}
+
+.textarea-form-item {
+    padding: 13px 16px;
+    background-color: #fff;
+    border-bottom: 1px solid $border-color;
+
+    .textarea-label {
+        display: block;
+        color: #333;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    // Target inner textarea
+    .at-textarea__textarea {
+        background-color: #f7f7f7;
+        border-radius: 4px;
+        padding: 8px;
+    }
+}
+
+.form-footer {
+    padding: 24px 16px;
+    .at-button {
+        background-color: $primary-color;
+        border-color: $primary-color;
+    }
+}

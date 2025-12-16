@@ -1,29 +1,24 @@
-/**
- * Configuration for data source mode
- * 'local' - uses mock data
- * 'api' - uses Cloudflare Worker API
- */
+import Taro from '@tarojs/taro';
 
 export type DataSourceMode = 'local' | 'api';
 
 export const DEFAULT_MODE: DataSourceMode = 'local';
-
 const MODE_STORAGE_KEY = 'job_data_source_mode';
 
 export function getMode(): DataSourceMode {
-  if (typeof window === 'undefined') {
+  try {
+    const stored = Taro.getStorageSync(MODE_STORAGE_KEY) as DataSourceMode | '';
+    return stored === 'api' ? 'api' : 'local';
+  } catch (e) {
+    console.error('Failed to get mode from storage, defaulting to local.', e);
     return DEFAULT_MODE;
   }
-  
-  const stored = localStorage.getItem(MODE_STORAGE_KEY) as DataSourceMode | null;
-  return stored === 'api' ? 'api' : 'local';
 }
 
 export function setMode(mode: DataSourceMode): void {
-  if (typeof window === 'undefined') {
-    return;
+  try {
+    Taro.setStorageSync(MODE_STORAGE_KEY, mode);
+  } catch (e) {
+    console.error('Failed to set mode to storage.', e);
   }
-  
-  localStorage.setItem(MODE_STORAGE_KEY, mode);
-  window.dispatchEvent(new CustomEvent('dataSourceModeChange', { detail: mode }));
 }

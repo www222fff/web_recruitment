@@ -1,57 +1,59 @@
-'use client';
-
+import { View, Text, Button } from '@tarojs/components';
 import { Building2 } from 'lucide-react';
-import { AtButton } from 'taro-ui';
-import { PostJobDialog } from './post-job-dialog';
+import Taro from '@tarojs/taro';
 import { useState, useEffect } from 'react';
-import { getMode, setMode } from '@/lib/config';
-import type { DataSourceMode } from '@/lib/config';
+import { getMode, setMode, DataSourceMode } from '@/lib/config';
 
-export function Header() {
-  const [isPostJobOpen, setIsPostJobOpen] = useState(false);
+import './header.scss';
+
+type HeaderProps = {
+  onPostJobClick: () => void;
+};
+
+export function Header({ onPostJobClick }: HeaderProps) {
   const [mode, setCurrentMode] = useState<DataSourceMode>('local');
+  const [statusBarHeight, setStatusBarHeight] = useState(20);
 
   useEffect(() => {
     setCurrentMode(getMode());
+    const sysInfo = Taro.getSystemInfoSync();
+    setStatusBarHeight(sysInfo.statusBarHeight || 20);
 
-    const handleModeChange = (event: Event) => {
-      const customEvent = event as CustomEvent<DataSourceMode>;
-      setCurrentMode(customEvent.detail);
-    };
-
-    window.addEventListener('dataSourceModeChange', handleModeChange);
-    return () => {
-      window.removeEventListener('dataSourceModeChange', handleModeChange);
-    };
+    // Mini-app event listeners are different from web.
+    // We'll rely on parent component to pass down state or re-fetch.
   }, []);
 
   const handleModeSwitch = () => {
     const newMode: DataSourceMode = mode === 'local' ? 'api' : 'local';
     setMode(newMode);
+    setCurrentMode(newMode);
+    Taro.showToast({
+      title: `已切换到 ${newMode === 'api' ? 'API' : '本地'} 模式`,
+      icon: 'none',
+      duration: 1500
+    });
+    // Trigger a refresh on the index page
+    Taro.eventCenter.trigger('modeSwitched');
   };
 
   return (
-    <>
-      <header className="sticky top-0 z-50 w-full border-b bg-card shadow-sm">
-        <div className="container flex h-16 items-center mx-auto">
-          <div className="flex items-center gap-2 mr-auto">
-            <Building2 className="h-6 w-6 text-secondary" />
-            <span className="text-xl font-bold font-headline text-secondary">蓝领快聘</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleModeSwitch}
-              title={mode === 'local' ? '切换到 API 模式' : '切换到本地模式'}
-            >
-              {mode === 'local' ? '本地模式' : 'API 模式'}
-            </Button>
-            <AtButton onClick={() => setIsPostJobOpen(true)}>发布职位</AtButton>
-          </div>
-        </div>
-      </header>
-      <PostJobDialog isOpen={isPostJobOpen} onOpenChange={setIsPostJobOpen} />
-    </>
+    <View className='header' style={{ paddingTop: `${statusBarHeight}px` }}>
+      <View className='header__left'>
+        <Building2 color='#90A4E8' size={24} />
+        <Text className='header__title'>蓝领快聘</Text>
+      </View>
+      <View className='header__right'>
+        <Button
+          className='header__mode-btn'
+          size='mini'
+          onClick={handleModeSwitch}
+        >
+          {mode === 'local' ? '本地' : 'API'}模式
+        </Button>
+        <Button className='header__post-btn' size='mini' type='primary' onClick={onPostJobClick}>
+          发布职位
+        </Button>
+      </View>
+    </View>
   );
 }

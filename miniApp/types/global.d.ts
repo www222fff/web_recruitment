@@ -1,4 +1,6 @@
 /// <reference types="@tarojs/taro" />
+/// <reference types="taro-ui/types/index.d.ts" />
+
 
 declare module '*.png';
 declare module '*.gif';
@@ -25,5 +27,3 @@ declare namespace NodeJS {
     TARO_APP_ID: string
   }
 }
-
-

@@ -1,0 +1,80 @@
+$primary-color: #5468ff;
+$secondary-color: #90a4e8;
+$text-color-primary: #1f2937;
+$text-color-secondary: #6b7280;
+$text-color-light: #4b5563;
+$card-bg: #ffffff;
+$page-bg: #f7f8fa;
+$border-color: #e5e7eb;
+$tag-bg: #eef2ff;
+$tag-text: #4338ca;
+$radius: 8px;
+
+.index-page {
+  background-color: $page-bg;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll-view {
+  flex: 1;
+  overflow-y: auto;
+}
+
+
+.page-container {
+  padding: 16px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 16px;
+
+  &__title {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    color: $text-color-primary;
+    margin-bottom: 4px;
+  }
+
+  &__subtitle {
+    display: block;
+    font-size: 14px;
+    color: $text-color-secondary;
+  }
+}
+
+.loading-container {
+  padding: 40px 0;
+}
+
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 48px 16px;
+  margin-top: 24px;
+  background-color: $card-bg;
+  border-radius: $radius;
+
+  &__title {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    color: $text-color-light;
+    margin-bottom: 8px;
+  }
+
+  &__subtitle {
+    display: block;
+    font-size: 14px;
+    color: $text-color-secondary;
+  }
+}

@@ -1,14 +1,10 @@
-'use client';
-
-import { AtInput } from 'taro-ui';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { View, Text } from '@tarojs/components';
+import { AtInput, AtTag } from 'taro-ui';
+import { useState } from 'react';
+import type { Job } from '@/lib/types';
 import { jobTypes, locations } from '@/lib/data';
+
+import './job-search-filters.scss';
 
 type JobSearchFiltersProps = {
   filters: {
@@ -20,54 +16,84 @@ type JobSearchFiltersProps = {
 };
 
 export function JobSearchFilters({ filters, onFiltersChange }: JobSearchFiltersProps) {
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onFiltersChange({ ...filters, keyword: e.target.value });
+
+  const handleKeywordChange = (value: string) => {
+    onFiltersChange({ ...filters, keyword: value });
+    return value;
   };
 
-  const handleTypeChange = (value: string) => {
-    onFiltersChange({ ...filters, type: value });
+  const handleTypeChange = (name: string) => {
+    const newType = filters.type === name ? 'all' : name;
+    onFiltersChange({ ...filters, type: newType });
   };
 
-  const handleLocationChange = (value: string) => {
-    onFiltersChange({ ...filters, location: value });
+  const handleLocationChange = (name: string) => {
+    const newLocation = filters.location === name ? 'all' : name;
+    onFiltersChange({ ...filters, location: newLocation });
   };
 
   return (
-    <div className="p-6 bg-card rounded-lg shadow-md">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <AtInput
-          placeholder="搜索职位、公司..."
-          value={filters.keyword}
-          onChange={handleInputChange}
-          className="md:col-span-1"
-        />
-        <Select value={filters.type} onValueChange={handleTypeChange}>
-          <SelectTrigger>
-            <SelectValue placeholder="所有工种" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">所有工种</SelectItem>
-            {jobTypes.map(type => (
-              <SelectItem key={type} value={type}>
-                {type}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={filters.location} onValueChange={handleLocationChange}>
-          <SelectTrigger>
-            <SelectValue placeholder="所有地区" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">所有地区</SelectItem>
-            {locations.map(location => (
-              <SelectItem key={location} value={location}>
-                {location}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
+    <View className='search-filters'>
+      <AtInput
+        name='keyword'
+        type='text'
+        placeholder='搜索职位、公司...'
+        value={filters.keyword}
+        onChange={handleKeywordChange}
+        className='search-filters__input'
+      />
+      <View className='search-filters__tags-section'>
+        <Text className='search-filters__tags-label'>工种:</Text>
+        <View className='search-filters__tags-container'>
+          <AtTag
+            name='all'
+            onClick={() => handleTypeChange('all')}
+            active={filters.type === 'all'}
+            circle
+            size='small'
+          >
+            全部
+          </AtTag>
+          {jobTypes.map(type => (
+            <AtTag
+              key={type}
+              name={type}
+              onClick={() => handleTypeChange(type)}
+              active={filters.type === type}
+              circle
+              size='small'
+            >
+              {type}
+            </AtTag>
+          ))}
+        </View>
+      </View>
+      <View className='search-filters__tags-section'>
+        <Text className='search-filters__tags-label'>地区:</Text>
+        <View className='search-filters__tags-container'>
+          <AtTag
+            name='all'
+            onClick={() => handleLocationChange('all')}
+            active={filters.location === 'all'}
+            circle
+            size='small'
+          >
+            全部
+          </AtTag>
+          {locations.map(location => (
+            <AtTag
+              key={location}
+              name={location}
+              onClick={() => handleLocationChange(location)}
+              active={filters.location === location}
+              circle
+              size='small'
+            >
+              {location}
+            </AtTag>
+          ))}
+        </View>
+      </View>
+    </View>
   );
 }

@@ -4,33 +4,32 @@ import { getMode } from '@/lib/config';
 import Taro from '@tarojs/taro';
 
 function getAPIBaseURL(): string {
-  if (typeof window === 'undefined') {
-    return process.env.NEXT_PUBLIC_API_URL || '';
-  }
-
-  const configuredURL = process.env.NEXT_PUBLIC_API_URL;
-  if (configuredURL) {
-    return configuredURL;
-  }
-
-  return '';
+  // Use a publicly accessible development server or a configurable URL for production
+  return 'http://localhost:8787'; // Replace with your actual worker URL if deployed
 }
 
-async function fetchFromAPI(endpoint: string): Promise<Job[]> {
-  const baseURL = getAPIBaseURL();
-  const url = baseURL ? `${baseURL}${endpoint}` : `/api${endpoint}`;
+async function fetchFromAPI(endpoint: string, options: Taro.request.Option = { method: 'GET' }): Promise<any> {
+  const url = `${getAPIBaseURL()}${endpoint}`;
 
-  const response = await Taro.request({
-    url,
-    method: 'GET',
-    header: {
-      'Content-Type': 'application/json',
-    },
-  });
-  if (response.statusCode < 200 || response.statusCode >= 300) {
-    throw new Error(`API Error: ${response.statusCode} ${response.errMsg}`);
+  try {
+    const response = await Taro.request({
+      ...options,
+      url,
+      header: {
+        'Content-Type': 'application/json',
+        ...(options.header || {}),
+      },
+    });
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return response.data;
+    } else {
+      throw new Error(`API Error: ${response.statusCode} ${response.errMsg}`);
+    }
+  } catch (error) {
+    console.error(`Fetch from API failed: ${url}`, error);
+    throw error;
   }
-  return response.data;
 }
 
 export async function getJobs(): Promise<Job[]> {
@@ -41,11 +40,13 @@ export async function getJobs(): Promise<Job[]> {
       return await fetchFromAPI('/jobs');
     } catch (error) {
       console.error('Failed to fetch jobs from API, falling back to local data:', error);
+      Taro.showToast({ title: 'API请求失败，使用本地数据', icon: 'none' });
       return mockJobs;
     }
   }
-
-  return mockJobs;
+  
+  // Return a copy to prevent mutation
+  return [...mockJobs];
 }
 
 export async function createJob(job: Omit<Job, 'id'>): Promise<Job> {
@@ -53,34 +54,24 @@ export async function createJob(job: Omit<Job, 'id'>): Promise<Job> {
 
   if (mode === 'api') {
     try {
-      const baseURL = getAPIBaseURL();
-      const url = baseURL ? `${baseURL}/jobs` : '/api/jobs';
-
-      const response = await Taro.request({
-        url,
+      const result = await fetchFromAPI('/jobs', {
         method: 'POST',
-        header: {
-          'Content-Type': 'application/json',
-        },
         data: job,
       });
-      if (response.statusCode < 200 || response.statusCode >= 300) {
-        throw new Error(`API Error: ${response.statusCode} ${response.errMsg}`);
-      }
-      const result = response.data;
-      return {
-        ...job,
-        id: result.id,
-      };
+      // The API should return the full job object or at least the new ID.
+      // Assuming it returns { id: newId, ... }
+      return { ...job, id: result.id };
     } catch (error) {
       console.error('Failed to create job via API:', error);
-      throw error;
+      throw error; // Re-throw to be handled by the caller
     }
   }
 
-  const id = Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
-  return {
-    ...job,
-    id,
-  };
+  // Local mode: simulate creating a job
+  console.log('Simulating job creation in local mode:', job);
+  const newId = `mock_${Date.now()}`;
+  const newJob = { ...job, id: newId };
+  mockJobs.unshift(newJob); // Add to the top of the list
+  
+  return newJob;
 }

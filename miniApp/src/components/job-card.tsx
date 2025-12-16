@@ -1,10 +1,11 @@
-'use client';
-
 import { View, Text } from '@tarojs/components';
-import { AtCard, AtTag } from 'taro-ui';
+import { AtTag } from 'taro-ui';
 import type { Job } from '@/lib/types';
 import { MapPin, JapaneseYen, CalendarDays, Clock, Phone, Copy } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import Taro from '@tarojs/taro';
+
+import './job-card.scss';
+
 
 type JobCardProps = {
   job: Job;
@@ -21,64 +22,75 @@ const WeChatIcon = (props: React.SVGProps<SVGSVGElement>) => (
         fill="currentColor"
       />
     </svg>
-  );
+);
+
 
 export function JobCard({ job }: JobCardProps) {
-  const { toast } = useToast();
-
-  const handleCopy = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleCopy = () => {
     if (job.contactPhone) {
-      navigator.clipboard.writeText(job.contactPhone);
-      toast({
-        title: '复制成功',
-        description: '联系电话已复制到剪贴板。',
+      Taro.setClipboardData({
+        data: job.contactPhone,
+        success: () => {
+          Taro.showToast({
+            title: '已复制电话',
+            icon: 'success',
+            duration: 1500,
+          });
+        },
       });
     }
   };
 
   return (
-    <AtCard className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
-      <View className="flex justify-between items-start">
-        <Text className="text-xl font-bold text-secondary">{job.title}</Text>
-        <AtTag type="secondary">{job.type}</AtTag>
+    <View className='job-card'>
+      <View className='job-card__header'>
+        <View>
+          <Text className='job-card__title'>{job.title}</Text>
+          <Text className='job-card__company'>{job.company}</Text>
+        </View>
+        <AtTag size='small' type='primary' circle>
+          {job.type}
+        </AtTag>
       </View>
-      <Text className="font-semibold pt-1">{job.company}</Text>
-      <View className="flex-grow space-y-3">
-        <View className="flex items-center text-muted-foreground">
-          <MapPin className="w-4 h-4 mr-2" />
+
+      <View className='job-card__body'>
+        <View className='job-card__info-item'>
+          <MapPin className='job-card__icon' size={16} />
           <Text>{job.location}</Text>
         </View>
-        <View className="flex items-center text-muted-foreground">
-          <JapaneseYen className="w-4 h-4 mr-2" />
-          <Text className="font-semibold text-primary">{job.salary}</Text>
+        <View className='job-card__info-item'>
+          <JapaneseYen className='job-card__icon' size={16} />
+          <Text className='job-card__salary'>{job.salary}</Text>
         </View>
-        <View className="flex items-center text-muted-foreground">
-          <CalendarDays className="w-4 h-4 mr-2" />
+        <View className='job-card__info-item'>
+          <CalendarDays className='job-card__icon' size={16} />
           <Text>用工天数: {job.duration}</Text>
         </View>
         {job.workingPeriod && (
-          <View className="flex items-center text-muted-foreground">
-              <Clock className="w-4 h-4 mr-2" />
-              <Text>用工时段: {job.workingPeriod}</Text>
+          <View className='job-card__info-item'>
+            <Clock className='job-card__icon' size={16} />
+            <Text>用工时段: {job.workingPeriod}</Text>
           </View>
         )}
-        {job.contactPhone && (
-           <View 
-             className="flex items-center text-muted-foreground cursor-pointer"
-             onClick={handleCopy}
-             title="点击复制电话/微信号"
-           >
-             <Phone className="w-4 h-4 mr-2" />
-             <WeChatIcon className="w-4 h-4 mr-2 fill-current" />
-             <Text>{job.contactPhone}</Text>
-             <Copy className="w-3 h-3 ml-2 text-muted-foreground" />
-           </View>
-        )}
-        <Text className="text-sm text-muted-foreground pt-2 whitespace-pre-wrap">
-          {job.description}
-        </Text>
       </View>
-    </AtCard>
+      
+      <Text className='job-card__description'>{job.description}</Text>
+
+      {job.contactPhone && (
+        <View className='job-card__footer'>
+          <View className='job-card__contact' onClick={handleCopy}>
+            <View style={{display: 'flex', alignItems: 'center'}}>
+              <Phone className='job-card__icon' size={16} />
+              <WeChatIcon className='job-card__icon' width="16" height="16" />
+              <Text className='job-card__contact-text'>{job.contactPhone}</Text>
+            </View>
+            <View style={{display: 'flex', alignItems: 'center'}}>
+              <Text className='job-card__copy-prompt'>点击复制</Text>
+              <Copy className='job-card__icon job-card__icon--copy' size={14} />
+            </View>
+          </View>
+        </View>
+      )}
+    </View>
   );
 }

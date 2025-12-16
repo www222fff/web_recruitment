@@ -1,0 +1,58 @@
+$primary-color: #5468ff;
+$nav-bg: #202A42;
+$nav-text-color: #DDE3F8;
+$nav-title-color: #ffffff;
+$radius: 6px;
+
+.header {
+  background-color: $nav-bg;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // This is a placeholder for the top safe area
+  padding-bottom: 12px;
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+    color: $nav-title-color;
+    margin-left: 8px;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__mode-btn, &__post-btn {
+    // Resetting default button styles
+    padding: 0 12px !important;
+    margin: 0 !important;
+    line-height: 28px !important;
+    height: 28px !important;
+    font-size: 13px !important;
+    border-radius: $radius !important;
+
+    // Remove border for Taro button
+    &::after {
+      border: none !important;
+    }
+  }
+
+  &__mode-btn {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: #fff !important;
+  }
+
+  &__post-btn {
+     background-color: $primary-color !important;
+     color: #fff !important;
+  }
+}
