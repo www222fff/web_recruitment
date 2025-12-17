@@ -38,7 +38,7 @@ page {
   background-color: $page-bg;
   color: $page-fg;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  font-size: 18rpx;
+  font-size: 28rpx;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -63,7 +63,7 @@ view, text, image, button, input, textarea {
   border-radius: $radius;
   padding: 20rpx 40rpx;
   text-align: center;
-  font-size: 18rpx;
+  font-size: 30rpx;
   line-height: 1.5;
   height: auto;
 }

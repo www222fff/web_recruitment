@@ -22,14 +22,14 @@ $contact-bg: #f3f4f6;
   }
 
   &__title {
-    font-size: 20rpx;
+    font-size: 34rpx;
     font-weight: bold;
     color: $text-color-primary;
     margin-bottom: 4rpx;
   }
 
   &__company {
-    font-size: 16rpx;
+    font-size: 28rpx;
     color: $text-color-light;
     display: block;
   }
@@ -37,7 +37,7 @@ $contact-bg: #f3f4f6;
   &__body {
     margin-bottom: 12px;
     color: $text-color-secondary;
-     font-size: 16rpx;
+     font-size: 28rpx;
      margin-bottom: 24rpx;
   }
   
@@ -65,7 +65,7 @@ $contact-bg: #f3f4f6;
   
   &__description {
       display: block;
-      font-size: 14rpx;
+      font-size: 26rpx;
       color: $text-color-secondary;
       line-height: 1.5;
       padding-top: 16rpx;
@@ -89,12 +89,12 @@ $contact-bg: #f3f4f6;
   }
 
   &__contact-text {
-      font-size: 14rpx;
+      font-size: 26rpx;
       color: $text-color-primary;
   }
 
   &__copy-prompt {
-      font-size: 12rpx;
+      font-size: 24rpx;
       color: $text-color-secondary;
   }
 }

@@ -19,7 +19,7 @@ $radius: 6rpx;
   }
 
   &__title {
-    font-size: 22rpx;
+    font-size: 36rpx;
     font-weight: bold;
     color: $nav-title-color;
     margin-left: 16rpx;
@@ -37,7 +37,7 @@ $radius: 6rpx;
     margin: 0 !important;
     line-height: 56rpx !important;
     height: 56rpx !important;
-    font-size: 18rpx !important;
+    font-size: 26rpx !important;
     border-radius: $radius !important;
 
     // Remove border for Taro button

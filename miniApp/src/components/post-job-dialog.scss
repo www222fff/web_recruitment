@@ -42,7 +42,7 @@ $placeholder-color: #bbbbbb;
   }
 
   &__title {
-    font-size: 20rpx;
+    font-size: 32rpx;
     font-weight: 500;
   }
 
@@ -66,7 +66,7 @@ $placeholder-color: #bbbbbb;
   padding: 14rpx 16rpx;
   border-bottom: 1rpx solid $border-color;
   background-color: #fff;
-  font-size: 18rpx;
+  font-size: 28rpx;
 
   &__label {
     width: 6.5em; // ~104rpx, to align with other fields
@@ -87,7 +87,7 @@ $placeholder-color: #bbbbbb;
   // For native Input components
   input {
     width: 100%;
-    font-size: 16rpx;
+    font-size: 28rpx;
     color: $text-color;
     &::placeholder, .placeholder-class {
         color: $placeholder-color;
@@ -107,7 +107,7 @@ $placeholder-color: #bbbbbb;
     background-color: #f7f7f7;
     border-radius: 4rpx;
     margin-top: 8rpx;
-    font-size: 15rpx;
+    font-size: 28rpx;
     line-height: 1.4;
   }
 }
