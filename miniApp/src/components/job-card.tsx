@@ -1,6 +1,6 @@
-import { View, Text } from '@tarojs/components';
+import { View, Text, Button } from '@tarojs/components';
 import type { Job } from '@/lib/types';
-import { MapPin, JapaneseYen, CalendarDays, Clock } from 'lucide-react';
+import { MapPin, JapaneseYen, CalendarDays, Clock, Copy, Phone } from 'lucide-react';
 import Taro from '@tarojs/taro';
 import { Tag } from './tag';
 
@@ -13,13 +13,35 @@ type JobCardProps = {
 
 
 export function JobCard({ job }: JobCardProps) {
+  
+  const handleCopy = (e: any) => {
+    e.stopPropagation();
+    if (!job.contactPhone) return;
+    Taro.setClipboardData({
+      data: job.contactPhone,
+      success: () => {
+        Taro.showToast({ title: '已复制微信号/电话', icon: 'none' });
+      }
+    })
+  };
+
   const handleCommunicate = () => {
-    // 这里可集成 wx.login 并跳转到站内聊天页面
-    Taro.showToast({
-      title: '进入站内沟通',
-      icon: 'success',
-      duration: 1200,
-    });
+    if (job.contactPhone) {
+      Taro.makePhoneCall({
+        phoneNumber: job.contactPhone,
+        fail: () => {
+          Taro.showToast({
+            title: '拨号失败，请复制后拨打',
+            icon: 'none'
+          })
+        }
+      });
+    } else {
+       Taro.showToast({
+        title: '该职位未提供联系电话',
+        icon: 'none'
+      });
+    }
   };
   // 格式化时间戳为 YYYY-MM-DD
   const formatDate = (timestamp?: number) => {
@@ -59,35 +81,27 @@ export function JobCard({ job }: JobCardProps) {
             <Text>用工时段: {job.workingPeriod}</Text>
           </View>
         )}
-        {/* 新增：显示创建时间 */}
+        {job.createdAt && (
         <View className='job-card__info-item'>
           <CalendarDays className='job-card__icon' size={16} />
           <Text>发布时间: {formatDate(job.createdAt)}</Text>
         </View>
+        )}
+        {job.contactPhone && (
+          <View className='job-card__info-item' onClick={handleCopy}>
+            <Phone className='job-card__icon' size={16} />
+            <Text>联系方式(点击复制): {job.contactPhone}</Text>
+            <Copy className='job-card__icon job-card__icon--copy' size={14} />
+          </View>
+        )}
       </View>
 
       <Text className='job-card__description'>{job.description}</Text>
 
       <View className='job-card__footer'>
-        <View className='job-card__contact'>
-          <Text className='job-card__contact-text'>
-            <View>
-              <Text></Text>
-              <Text></Text>
-            </View>
-            <View>
-              <Text></Text>
-            </View>
-            <View>
-              <Text></Text>
-            </View>
-          </Text>
-          <View>
-            <button className='job-card__contact' onClick={handleCommunicate}>
-              立即沟通
-            </button>
-          </View>
-        </View>
+        <Button className='job-card__contact-btn' onClick={handleCommunicate}>
+          立即沟通
+        </Button>
       </View>
     </View>
   );
