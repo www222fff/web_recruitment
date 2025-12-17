@@ -24,7 +24,7 @@ export function PostJobDialog({ isOpen, onClose }: PostJobDialogProps) {
     duration: '',
     description: '',
     workingPeriod: '',
-    contactPhone: ''
+    // ...existing code...
   });
 
   if (!isOpen) {
@@ -148,7 +148,7 @@ export function PostJobDialog({ isOpen, onClose }: PostJobDialogProps) {
                 <Input name='workingPeriod' type='text' placeholder='(选填) 例如：8月-12月' value={formData.workingPeriod || ''} onInput={v => handleChange('workingPeriod', v)} />
             </FormItem>
             <FormItem label='联系电话'>
-                <Input name='contactPhone' type='text' placeholder='(选填) 请填写电话或微信号' value={formData.contactPhone || ''} onInput={v => handleChange('contactPhone', v)} />
+                {/* 联系方式输入已移除，合规处理 */}
             </FormItem>
             
             <View className='form-item'>

@@ -8,5 +8,4 @@ export interface Job {
   description: string;
   duration: string;
   workingPeriod?: string;
-  contactPhone?: string;
 }
