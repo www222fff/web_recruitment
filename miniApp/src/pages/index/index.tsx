@@ -31,8 +31,6 @@ export default function Home() {
   // 分页相关状态
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  // 用于动态计算ScrollView的高度
-  const [headerHeight, setHeaderHeight] = useState(80);
 
   const loadJobs = async () => {
     setIsLoading(true);
@@ -66,14 +64,6 @@ export default function Home() {
   });
 
   useEffect(() => {
-    // 动态获取 header 高度
-    const query = Taro.createSelectorQuery();
-    query.select('.header').boundingClientRect(rect => {
-      if (rect) {
-        setHeaderHeight(rect.height);
-      }
-    }).exec();
-
     loadJobs();
     
     // Listen for events to refresh data
@@ -118,7 +108,6 @@ export default function Home() {
       <ScrollView
         scrollY
         className='scroll-view'
-        style={{ height: `calc(100vh - ${headerHeight}px)` }} // 动态计算高度，防止遮挡
       >
         <View className='page-container'>
           <View className='page-header'>
@@ -128,7 +117,11 @@ export default function Home() {
 
           <JobSearchFilters filters={filters} onFiltersChange={setFilters} />
 
-          {isLoading ? null : filteredJobs.length > 0 ? (
+          {isLoading ? (
+             <View className='loading-container'>
+                <Text>加载中...</Text>
+             </View>
+            ) : filteredJobs.length > 0 ? (
             <>
               <View className='job-list'>
                 {pagedJobs.map(job => (

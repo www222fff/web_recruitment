@@ -48,6 +48,8 @@ $radius: 8rpx;
 
 .loading-container {
   padding: 40rpx 0;
+  text-align: center;
+  color: $text-color-secondary;
 }
 
 .job-list {
@@ -92,4 +94,3 @@ $radius: 8rpx;
   color: $primary-color;
   cursor: pointer;
 }
-
