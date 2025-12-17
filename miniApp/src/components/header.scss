@@ -7,7 +7,10 @@ $radius: 6rpx;
 
 .header {
   background-color: $nav-bg;
-  padding: 12rpx 32rpx; // 统一并减小垂直 padding
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+  padding-bottom: 12rpx; // You can now change this value and see the effect
+
   display: flex;
   align-items: center;
   justify-content: space-between;

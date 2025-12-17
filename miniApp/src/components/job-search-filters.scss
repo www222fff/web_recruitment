@@ -1,35 +1,28 @@
-$card-bg: hsl(222.2, 47.4%, 11.2%);
+$card-bg: #ffffff;
 $radius: 12rpx; // 增大圆角
-$input-bg: hsl(222.2, 84%, 4.9%);
-$input-border-color: hsl(217.2, 32.6%, 17.5%);
-$input-focus-border-color: hsl(263.4, 95.2%, 58.6%);
-$label-color: hsl(215, 27.9%, 60.8%);
-$placeholder-color: hsl(215.4, 16.3%, 46.9%);
 
 .search-filters {
   background-color: $card-bg;
   padding: 32rpx;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08); // 增加阴影效果
   border-radius: $radius;
-  border: 1px solid $input-border-color;
 
   &__input {
-    background-color: $input-bg;
+    background-color: #f3f4f6;
     border-radius: $radius;
-    padding: 20rpx 28rpx; // 增大输入框尺寸
-    font-size: 30rpx; // 增大字体
+    padding: 20rpx 30rpx; // 增大输入框尺寸
+    font-size: 28rpx; // 增大字体
     margin-bottom: 32rpx;
-    border: 1rpx solid $input-border-color;
+    border: 1rpx solid #e5e7eb;
     transition: border-color 0.2s;
-    color: #fff;
     
     // Natively supported placeholder styling in mini-apps
     .placeholder-class, &::placeholder {
-      color: $placeholder-color;
+      color: #9ca3af;
     }
 
     &:focus {
-      border-color: $input-focus-border-color;
+      border-color: #5468ff;
     }
   }
 
@@ -44,7 +37,7 @@ $placeholder-color: hsl(215.4, 16.3%, 46.9%);
     margin-right: 24rpx;
     padding-top: 10rpx;
     flex-shrink: 0;
-    color: $label-color;
+    color: #374151;
     font-weight: 500;
   }
 
