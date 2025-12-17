@@ -1,14 +1,13 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { View, ScrollView, Text } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 import { JobCard } from '@/components/job-card';
 import type { Job } from '@/lib/types';
 import { getJobs } from '@/lib/api';
 import { JobSearchFilters } from '@/components/job-search-filters';
 import { Header } from '@/components/header';
 import { PostJobDialog } from '@/components/post-job-dialog';
-
 import './index.scss';
 
 function NoResults() {
@@ -42,6 +41,24 @@ export default function Home() {
       setIsLoading(false);
     }
   };
+
+  // Share to friends (分享给朋友)
+  useShareAppMessage(() => {
+    return {
+      title: '兄弟一起干',
+      desc: '实时发布工作机会',
+      path: '/pages/index/index',
+    };
+  });
+
+  // Share to Moments/Timeline (分享到朋友圈)
+  useShareTimeline(() => {
+    return {
+      title: '兄弟一起干',
+      query: 'from=timeline',
+      imageUrl: '/images/job.jpg',
+    };
+  });
 
   useEffect(() => {
     loadJobs();

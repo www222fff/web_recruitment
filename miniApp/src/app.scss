@@ -29,7 +29,7 @@ $border: hsl(214.3, 31.8%, 91.4%);
 $input-border: hsl(214.3, 31.8%, 91.4%);
 $ring: hsl(222.2, 84%, 4.9%);
 
-$radius: 8px;
+$radius: 8rpx;
 
 
 // ==================== 2. 全局样式应用 ====================
@@ -38,7 +38,7 @@ page {
   background-color: $page-bg;
   color: $page-fg;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  font-size: 16px;
+  font-size: 18rpx;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -53,7 +53,7 @@ view, text, image, button, input, textarea {
   background-color: $card-bg;
   color: $card-fg;
   border-radius: $radius;
-  border: 1px solid $border;
+  border: 1rpx solid $border;
 }
 
 // 主要按钮样式
@@ -61,9 +61,9 @@ view, text, image, button, input, textarea {
   background-color: $primary-action;
   color: #fff;
   border-radius: $radius;
-  padding: 10px 20px;
+  padding: 20rpx 40rpx;
   text-align: center;
-  font-size: 16px;
+  font-size: 18rpx;
   line-height: 1.5;
   height: auto;
 }

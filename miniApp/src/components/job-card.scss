@@ -4,32 +4,32 @@ $text-color-secondary: #6b7280;
 $text-color-light: #4b5563;
 $card-bg: #ffffff;
 $border-color: #e5e7eb;
-$radius: 8px;
+$radius: 8rpx;
 $salary-color: #ff5722;
 $contact-bg: #f3f4f6;
 
 .job-card {
   background-color: $card-bg;
   border-radius: $radius;
-  padding: 16px;
+  padding: 32rpx;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 8px;
+    margin-bottom: 16rpx;
   }
 
   &__title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     color: $text-color-primary;
     margin-bottom: 2px;
   }
 
   &__company {
-    font-size: 14px;
+    font-size: 16px;
     color: $text-color-light;
     display: block;
   }
@@ -37,7 +37,7 @@ $contact-bg: #f3f4f6;
   &__body {
     margin-bottom: 12px;
     color: $text-color-secondary;
-    font-size: 14px;
+    font-size: 16px;
   }
   
   &__info-item {

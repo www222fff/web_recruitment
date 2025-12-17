@@ -2,16 +2,16 @@ $primary-color: #5468ff;
 $nav-bg: #202A42;
 $nav-text-color: #DDE3F8;
 $nav-title-color: #ffffff;
-$radius: 6px;
+$radius: 6rpx;
 
 .header {
   background-color: $nav-bg;
-  padding: 8px 16px;
+  padding: 16rpx 32rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
   // This is a placeholder for the top safe area
-  padding-bottom: 12px;
+  padding-bottom: 24rpx;
 
   &__left {
     display: flex;
@@ -19,25 +19,25 @@ $radius: 6px;
   }
 
   &__title {
-    font-size: 20px;
+    font-size: 22rpx;
     font-weight: bold;
     color: $nav-title-color;
-    margin-left: 8px;
+    margin-left: 16rpx;
   }
 
   &__right {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 16rpx;
   }
 
   &__mode-btn, &__post-btn {
     // Resetting default button styles
-    padding: 0 12px !important;
+    padding: 0 24rpx !important;
     margin: 0 !important;
-    line-height: 28px !important;
-    height: 28px !important;
-    font-size: 13px !important;
+    line-height: 56rpx !important;
+    height: 56rpx !important;
+    font-size: 18rpx !important;
     border-radius: $radius !important;
 
     // Remove border for Taro button
