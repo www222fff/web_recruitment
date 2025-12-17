@@ -3,6 +3,7 @@ import type { Job } from '@/lib/types';
 import { MapPin, JapaneseYen, CalendarDays, Clock, Copy, Phone } from 'lucide-react';
 import Taro from '@tarojs/taro';
 import { Tag } from './tag';
+import { ensureLoggedIn } from '@/lib/user';
 
 import './job-card.scss';
 
@@ -25,22 +26,20 @@ export function JobCard({ job }: JobCardProps) {
     })
   };
 
-  const handleCommunicate = () => {
-    if (job.contactPhone) {
-      Taro.makePhoneCall({
-        phoneNumber: job.contactPhone,
-        fail: () => {
-          Taro.showToast({
-            title: '拨号失败，请复制后拨打',
-            icon: 'none'
-          })
-        }
-      });
-    } else {
-       Taro.showToast({
-        title: '该职位未提供联系电话',
+  const handleCommunicate = async () => {
+    try {
+      const loggedIn = await ensureLoggedIn();
+      if (loggedIn) {
+        Taro.navigateTo({
+          url: `/pages/chat/index?jobId=${job.id}&jobTitle=${job.title}`
+        });
+      }
+    } catch (error) {
+      Taro.showToast({
+        title: '登录失败，请重试',
         icon: 'none'
       });
+      console.error('Login failed:', error);
     }
   };
   // 格式化时间戳为 YYYY-MM-DD
