@@ -1,6 +1,6 @@
-$primary-color: #5468ff;
-$default-bg: #f3f4f6;
-$default-text: #4b5563;
+$primary-color: #7c3aed;
+$default-bg: hsl(217.2, 32.6%, 25.5%); // Darker muted background
+$default-text: hsl(210, 40%, 98%); // Light text
 
 .custom-tag {
   display: inline-flex;

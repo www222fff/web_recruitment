@@ -1,18 +1,19 @@
 
-$primary-color: #5468ff;
-$text-color-primary: #1f2937;
-$text-color-secondary: #6b7280;
-$text-color-light: #4b5563;
-$card-bg: #ffffff;
-$border-color: #e5e7eb;
+$primary-color: #7c3aed;
+$text-color-primary: hsl(210, 40%, 98%);
+$text-color-secondary: hsl(215, 27.9%, 60.8%);
+$text-color-light: hsl(215, 27.9%, 70.8%);
+$card-bg: hsl(222.2, 47.4%, 11.2%);
+$border-color: hsl(217.2, 32.6%, 17.5%);
 $radius: 8rpx;
-$salary-color: #ff5722;
+$salary-color: #f59e0b; // Amber color for salary
 
 .job-card {
   background-color: $card-bg;
   border-radius: $radius;
   padding: 32rpx;
   box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
+  border: 1px solid $border-color;
 
   &__header {
     display: flex;
@@ -99,7 +100,7 @@ $salary-color: #ff5722;
     }
 
     &.button-hover {
-        background-color: #4558e0;
+        background-color: darken($primary-color, 10%);
     }
   }
 }

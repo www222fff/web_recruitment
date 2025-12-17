@@ -2,31 +2,31 @@
 
 // ==================== 1. 自定义主题变量 ====================
 // 从你的 Web globals.css 提取的 SCSS 变量 (暗黑模式)
-$page-bg: #F7F8FA;
-$page-fg: hsl(222.2, 84%, 4.9%);
+$page-bg: hsl(222.2, 84%, 4.9%); // Updated to dark background
+$page-fg: hsl(210, 40%, 98%); // Updated to light foreground
 
-$card-bg: hsl(0, 0%, 100%);
-$card-fg: hsl(222.2, 84%, 4.9%);
+$card-bg: hsl(222.2, 47.4%, 11.2%); // Updated to dark card
+$card-fg: hsl(210, 40%, 98%); // Updated to light card foreground
 
-$primary: hsl(222.2, 47.4%, 11.2%);
+$primary: hsl(263.4, 95.2%, 58.6%);
 $primary-fg: hsl(210, 40%, 98%);
-$primary-action: #5468ff; // 主操作色，用于按钮
+$primary-action: #7c3aed; // 主操作色，用于按钮 - Updated to purple
 
 $secondary: hsl(210, 40%, 96.1%);
 $secondary-fg: hsl(222.2, 47.4%, 11.2%);
 
-$muted: hsl(210, 40%, 96.1%);
-$muted-fg: hsl(215.4, 16.3%, 46.9%);
+$muted: hsl(217.2, 32.6%, 17.5%);
+$muted-fg: hsl(215, 27.9%, 60.8%);
 
-$accent: hsl(210, 40%, 96.1%);
-$accent-fg: hsl(222.2, 47.4%, 11.2%);
+$accent: hsl(217.2, 32.6%, 17.5%);
+$accent-fg: hsl(210, 40%, 98%);
 
 $destructive: hsl(0, 84.2%, 60.2%);
 $destructive-fg: hsl(210, 40%, 98%);
 
-$border: hsl(214.3, 31.8%, 91.4%);
-$input-border: hsl(214.3, 31.8%, 91.4%);
-$ring: hsl(222.2, 84%, 4.9%);
+$border: hsl(217.2, 32.6%, 17.5%);
+$input-border: hsl(217.2, 32.6%, 17.5%);
+$ring: hsl(263.4, 95.2%, 58.6%);
 
 $radius: 8rpx;
 
