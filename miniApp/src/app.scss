@@ -1,9 +1,8 @@
 @use 'sass:color';
 
 // ==================== 1. 自定义主题变量 ====================
-// 从你的 Web globals.css 提取的 SCSS 变量
-// 亮模式（默认）
-$page-bg: hsl(0, 0%, 98%); // 使用稍带灰度的背景色 F7F8FA
+// 从你的 Web globals.css 提取的 SCSS 变量 (暗黑模式)
+$page-bg: #F7F8FA;
 $page-fg: hsl(222.2, 84%, 4.9%);
 
 $card-bg: hsl(0, 0%, 100%);
@@ -38,7 +37,7 @@ page {
   background-color: $page-bg;
   color: $page-fg;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  font-size: 28rpx;
+  font-size: 28rpx; // 增大基础字号
   -webkit-font-smoothing: antialiased;
 }
 

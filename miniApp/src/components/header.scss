@@ -6,12 +6,11 @@ $radius: 6rpx;
 
 .header {
   background-color: $nav-bg;
-  padding: 16rpx 32rpx;
+  padding: 16rpx 32rpx; // 减小垂直 padding
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // This is a placeholder for the top safe area
-  padding-bottom: 24rpx;
+  padding-bottom: 20rpx; // 调整底部 padding
 
   &__left {
     display: flex;

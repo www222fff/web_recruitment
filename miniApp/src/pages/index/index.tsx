@@ -31,6 +31,8 @@ export default function Home() {
   // 分页相关状态
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
+  // 用于动态计算ScrollView的高度
+  const [headerHeight, setHeaderHeight] = useState(80);
 
   const loadJobs = async () => {
     setIsLoading(true);
@@ -64,6 +66,14 @@ export default function Home() {
   });
 
   useEffect(() => {
+    // 动态获取 header 高度
+    const query = Taro.createSelectorQuery();
+    query.select('.header').boundingClientRect(rect => {
+      if (rect) {
+        setHeaderHeight(rect.height);
+      }
+    }).exec();
+
     loadJobs();
     
     // Listen for events to refresh data
@@ -100,15 +110,6 @@ export default function Home() {
     return filteredJobs.slice(0, currentPage * pageSize);
   }, [filteredJobs, currentPage, pageSize]);
 
-  const [headerHeight, setHeaderHeight] = useState(80);
-   useEffect(() => {
-    const query = Taro.createSelectorQuery();
-    query.select('.header').boundingClientRect(rect => {
-      if (rect) {
-        setHeaderHeight(rect.height);
-      }
-    }).exec();
-  }, []);
 
   return (
     <View className='index-page'>
@@ -117,7 +118,7 @@ export default function Home() {
       <ScrollView
         scrollY
         className='scroll-view'
-        style={{ height: `calc(100vh - ${headerHeight}px)` }}
+        style={{ height: `calc(100vh - ${headerHeight}px)` }} // 动态计算高度，防止遮挡
       >
         <View className='page-container'>
           <View className='page-header'>
