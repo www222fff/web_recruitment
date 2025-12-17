@@ -30,7 +30,7 @@ function setUser(userInfo: UserInfo) {
 // 确保用户已登录
 export async function ensureLoggedIn(): Promise<boolean> {
   const cachedUser = getUser();
-  if (cachedUser?.userId) {
+  if (cachedUser && cachedUser.userId) {
     return true; // 已登录
   }
 
