@@ -1,3 +1,4 @@
+
 $primary-color: #5468ff;
 $nav-bg: #202A42;
 $nav-text-color: #DDE3F8;
@@ -6,22 +7,22 @@ $radius: 6rpx;
 
 .header {
   background-color: $nav-bg;
-  padding: 16rpx 32rpx; // 减小垂直 padding
+  padding: 12rpx 32rpx; // 统一并减小垂直 padding
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 20rpx; // 调整底部 padding
 
   &__left {
     display: flex;
     align-items: center;
+    gap: 16rpx; // 使用 gap 控制间距
   }
 
   &__title {
     font-size: 36rpx;
     font-weight: bold;
     color: $nav-title-color;
-    margin-left: 16rpx;
+    // 移除 margin-left，由父元素的 gap 控制
   }
 
   &__right {
