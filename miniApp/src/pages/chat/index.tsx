@@ -8,7 +8,7 @@ import './index.scss';
 
 const CurrentUserAvatar = ({ user }: { user: UserInfo | null }) => (
   <View className='avatar'>
-    {user?.avatarUrl ? (
+    {user && user.avatarUrl ? (
       <Image src={user.avatarUrl} style={{ width: '100%', height: '100%' }} />
     ) : (
       <User size={24} color='#666' />
@@ -42,7 +42,7 @@ export default function ChatPage() {
     setUser(currentUser);
 
     // 加载历史消息
-    if (jobId && currentUser?.userId) {
+    if (jobId && currentUser && currentUser.userId) {
       const history = getChatHistory(jobId);
       setMessages(history);
       // 模拟 recruiter 回复
@@ -86,7 +86,7 @@ export default function ChatPage() {
 
 
   const handleSend = () => {
-    if (!inputValue.trim() || !jobId || !user?.userId) return;
+    if (!inputValue.trim() || !jobId || !(user && user.userId)) return;
 
     const newMessage: Message = {
       id: Date.now(),
@@ -115,7 +115,7 @@ export default function ChatPage() {
       >
         <View className='message-list'>
           {messages.map(msg => {
-            const isSent = msg.senderId === user?.userId;
+            const isSent = msg.senderId === (user && user.userId);
             return (
               <View
                 key={msg.id}
