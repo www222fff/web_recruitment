@@ -97,15 +97,16 @@ export function JobCard({ job }: JobCardProps) {
            </div>
         )}
         
-        <p className="text-sm text-muted-foreground pt-2 whitespace-pre-wrap">
-          {job.description}
-        </p>
         {job.createdAt && (
           <div className="flex items-center text-muted-foreground text-xs pt-1">
             <CalendarDays className="w-4 h-4 mr-1" />
             <span>发布时间: {formatDate(job.createdAt)}</span>
           </div>
         )}
+
+        <p className="text-sm text-muted-foreground pt-2 whitespace-pre-wrap">
+          {job.description}
+        </p>
       </CardContent>
       <CardFooter>
       </CardFooter>

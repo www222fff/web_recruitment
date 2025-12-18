@@ -37,7 +37,7 @@ export function JobCard({ job }: JobCardProps) {
       <View className='job-card__body'>
         <View className='job-card__info-item'>
           <MapPin className='job-card__icon' size={16} />
-          <Text>{job.location}： {job.company}</Text>
+          <Text>{job.location}: {job.company}</Text>
         </View>
         <View className='job-card__info-item'>
           <JapaneseYen className='job-card__icon' size={16} />
