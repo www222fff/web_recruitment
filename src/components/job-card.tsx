@@ -44,6 +44,17 @@ export function JobCard({ job }: JobCardProps) {
     }
   };
 
+  // 格式化ISO字符串为 YYYY-MM-DD
+  const formatDate = (date?: string) => {
+    if (!date) return '';
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  };
+
   return (
     <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
@@ -89,6 +100,12 @@ export function JobCard({ job }: JobCardProps) {
         <p className="text-sm text-muted-foreground pt-2 whitespace-pre-wrap">
           {job.description}
         </p>
+        {job.createdAt && (
+          <div className="flex items-center text-muted-foreground text-xs pt-1">
+            <CalendarDays className="w-4 h-4 mr-1" />
+            <span>发布时间: {formatDate(job.createdAt)}</span>
+          </div>
+        )}
       </CardContent>
       <CardFooter>
       </CardFooter>

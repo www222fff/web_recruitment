@@ -48,7 +48,7 @@ export default function Home() {
   // Share to friends (分享给朋友)
   useShareAppMessage(() => {
     return {
-      title: '兄弟一起干',
+      title: '一起干',
       desc: '实时发布工作机会',
       path: '/pages/index/index',
     };
@@ -57,7 +57,7 @@ export default function Home() {
   // Share to Moments/Timeline (分享到朋友圈)
   useShareTimeline(() => {
     return {
-      title: '兄弟一起干',
+      title: '一起干',
       query: 'from=timeline',
       imageUrl: '/images/job.jpg',
     };

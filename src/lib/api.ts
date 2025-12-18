@@ -48,7 +48,7 @@ export async function getJobs(): Promise<Job[]> {
   return mockJobs;
 }
 
-export async function createJob(job: Omit<Job, 'id'>): Promise<Job> {
+export async function createJob(job: Omit<Job, 'id' | 'createdAt'>): Promise<Job> {
   const mode = getMode();
 
   if (mode === 'api') {
@@ -56,12 +56,15 @@ export async function createJob(job: Omit<Job, 'id'>): Promise<Job> {
       const baseURL = getAPIBaseURL();
       const url = baseURL ? `${baseURL}/jobs` : '/api/jobs';
 
+      // 自动生成createdAt字段
+      const jobWithDate = { ...job, createdAt: new Date().toISOString() };
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(job),
+        body: JSON.stringify(jobWithDate),
       });
 
       if (!response.ok) {
@@ -70,7 +73,7 @@ export async function createJob(job: Omit<Job, 'id'>): Promise<Job> {
 
       const result = await response.json();
       return {
-        ...job,
+        ...jobWithDate,
         id: result.id,
       };
     } catch (error) {
@@ -83,5 +86,6 @@ export async function createJob(job: Omit<Job, 'id'>): Promise<Job> {
   return {
     ...job,
     id,
+    createdAt: new Date().toISOString(),
   };
 }

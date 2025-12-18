@@ -30,6 +30,7 @@ function JobCardSkeleton() {
     );
   }
 
+
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,6 +39,9 @@ export default function Home() {
     type: 'all',
     location: 'all',
   });
+  // 分页相关
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 9;
 
   useEffect(() => {
     const loadJobs = async () => {
@@ -71,20 +75,34 @@ export default function Home() {
     };
   }, []);
 
+  // 排序+过滤
   const filteredJobs = useMemo(() => {
-    return jobs.filter(job => {
-      const keywordMatch =
-        filters.keyword === '' ||
-        job.title.toLowerCase().includes(filters.keyword.toLowerCase()) ||
-        job.company.toLowerCase().includes(filters.keyword.toLowerCase()) ||
-        job.description.toLowerCase().includes(filters.keyword.toLowerCase());
+    return jobs
+      .slice()
+      .sort((a, b) => {
+        // createdAt 可能为string或number
+        const aTime = typeof a.createdAt === 'string' ? new Date(a.createdAt).getTime() : a.createdAt;
+        const bTime = typeof b.createdAt === 'string' ? new Date(b.createdAt).getTime() : b.createdAt;
+        return (bTime || 0) - (aTime || 0);
+      })
+      .filter(job => {
+        const keywordMatch =
+          filters.keyword === '' ||
+          job.title.toLowerCase().includes(filters.keyword.toLowerCase()) ||
+          job.company.toLowerCase().includes(filters.keyword.toLowerCase()) ||
+          job.description.toLowerCase().includes(filters.keyword.toLowerCase());
 
-      const typeMatch = filters.type === 'all' || job.type === filters.type;
-      const locationMatch = filters.location === 'all' || job.location === filters.location;
+        const typeMatch = filters.type === 'all' || job.type === filters.type;
+        const locationMatch = filters.location === 'all' || job.location === filters.location;
 
-      return keywordMatch && typeMatch && locationMatch;
-    });
+        return keywordMatch && typeMatch && locationMatch;
+      });
   }, [jobs, filters]);
+
+  // 分页
+  const pagedJobs = useMemo(() => {
+    return filteredJobs.slice(0, currentPage * pageSize);
+  }, [filteredJobs, currentPage]);
 
   return (
     <>
@@ -105,11 +123,23 @@ export default function Home() {
             ))}
           </div>
         ) : filteredJobs.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 animate-in fade-in-50">
-            {filteredJobs.map(job => (
-              <JobCard key={job.id} job={job} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 animate-in fade-in-50">
+              {pagedJobs.map(job => (
+                <JobCard key={job.id} job={job} />
+              ))}
+            </div>
+            {pagedJobs.length < filteredJobs.length && (
+              <div className="flex justify-center mt-8">
+                <button
+                  className="px-6 py-2 rounded bg-primary text-white hover:bg-primary/90 transition"
+                  onClick={() => setCurrentPage(p => p + 1)}
+                >
+                  加载更多
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center mt-16 py-12 bg-card rounded-lg shadow-sm">
               <h2 className="text-2xl font-semibold text-muted-foreground">没有找到匹配的职位</h2>

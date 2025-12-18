@@ -9,4 +9,5 @@ export interface Job {
   duration: string;
   workingPeriod?: string;
   contactPhone?: string;
+  createdAt: string; // 发布日期，ISO 字符串
 }

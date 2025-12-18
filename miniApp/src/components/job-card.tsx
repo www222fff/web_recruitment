@@ -15,37 +15,11 @@ type JobCardProps = {
 
 export function JobCard({ job }: JobCardProps) {
   
-  const handleCopy = (e: any) => {
-    e.stopPropagation();
-    if (!job.contactPhone) return;
-    Taro.setClipboardData({
-      data: job.contactPhone,
-      success: () => {
-        Taro.showToast({ title: '已复制微信号/电话', icon: 'none' });
-      }
-    })
-  };
-
-  const handleCommunicate = async () => {
-    try {
-      const loggedIn = await ensureLoggedIn();
-      if (loggedIn) {
-        Taro.navigateTo({
-          url: `/pages/chat/index?jobId=${job.id}&jobTitle=${job.title}`
-        });
-      }
-    } catch (error) {
-      Taro.showToast({
-        title: '登录失败，请重试',
-        icon: 'none'
-      });
-      console.error('Login failed:', error);
-    }
-  };
-  // 格式化时间戳为 YYYY-MM-DD
-  const formatDate = (timestamp?: number) => {
-    if (!timestamp) return '';
-    const d = new Date(timestamp);
+  // 格式化时间戳或ISO字符串为 YYYY-MM-DD
+  const formatDate = (date?: number | string) => {
+    if (!date) return '';
+    const d = typeof date === 'string' ? new Date(date) : new Date(date);
+    if (isNaN(d.getTime())) return '';
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
@@ -88,11 +62,6 @@ export function JobCard({ job }: JobCardProps) {
       </View>
 
       <Text className='job-card__description'>{job.description}</Text>
-      <View className='job-card__footer'>
-        <Button className='job-card__contact-btn' onClick={handleCommunicate}>
-          立即沟通
-        </Button>
-      </View>
     </View>
   );
 }
