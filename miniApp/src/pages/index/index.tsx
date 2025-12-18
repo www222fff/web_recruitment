@@ -6,7 +6,6 @@ import type { Job } from '@/lib/types';
 import { getJobs } from '@/lib/api';
 import { JobSearchFilters } from '@/components/job-search-filters';
 import { PostMessageDialog } from '@/components/post-message-dialog';
-import { Header } from '@/components/header';
 import { Plus } from 'lucide-react';
 import './index.scss';
 
@@ -98,7 +97,6 @@ export default function Home() {
 
   return (
     <View className='index-page'>
-      <Header title='寻找最适合您的工作' />
       <ScrollView
         scrollY
         className='scroll-view'
