@@ -1,6 +1,6 @@
 
 import { useState, useMemo, useEffect } from 'react';
-import { View, ScrollView, Text } from '@tarojs/components';
+import { View, ScrollView, Text, Button } from '@tarojs/components';
 import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 import { JobCard } from '@/components/job-card';
 import type { Job } from '@/lib/types';
@@ -27,7 +27,7 @@ export default function Home() {
     type: 'all',
     location: 'all',
   });
-  const [isPostJobOpen, setIsPostJobOpen] = useState(false);
+
   const [isPostMessageOpen, setIsPostMessageOpen] = useState(false);
   // 分页相关状态
   const [currentPage, setCurrentPage] = useState(1);
@@ -141,10 +141,6 @@ export default function Home() {
         </View>
       </ScrollView>
 
-      <PostJobDialog
-        isOpen={isPostJobOpen}
-        onClose={() => setIsPostJobOpen(false)}
-      />
       <PostMessageDialog
         isOpen={isPostMessageOpen}
         onClose={() => setIsPostMessageOpen(false)}

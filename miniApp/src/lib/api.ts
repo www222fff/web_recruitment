@@ -13,6 +13,7 @@ export async function postMessage(payload: MessagePayload): Promise<any> {
   });
 }
 import type { Job } from '@/lib/types';
+import { mockJobs } from './data';
 import Taro from '@tarojs/taro';
 
 function getAPIBaseURL(): string {
@@ -37,6 +38,10 @@ async function fetchFromAPI(endpoint: string, options: Taro.request.Option = { m
     }
   } catch (error) {
     console.error(`Fetch from API failed: ${url}`, error);
+    // 审核/开发环境下，接口失败时返回 mock 数据
+    if (endpoint === '/jobs') {
+      return mockJobs;
+    }
     throw error;
   }
 }

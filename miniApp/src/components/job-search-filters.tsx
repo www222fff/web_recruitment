@@ -1,5 +1,5 @@
 import { View, Text, Input } from '@tarojs/components';
-import type { Job } from '@/lib/types';
+import { jobTypes, locations } from '../lib/data';
 import { Tag } from './tag';
 
 import './job-search-filters.scss';
