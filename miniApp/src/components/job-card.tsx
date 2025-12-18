@@ -56,7 +56,6 @@ export function JobCard({ job }: JobCardProps) {
       <View className='job-card__header'>
         <View>
           <Text className='job-card__title'>{job.title}</Text>
-          <Text className='job-card__company'>{job.company}</Text>
         </View>
         <Tag active>{job.type}</Tag>
       </View>
@@ -64,11 +63,11 @@ export function JobCard({ job }: JobCardProps) {
       <View className='job-card__body'>
         <View className='job-card__info-item'>
           <MapPin className='job-card__icon' size={16} />
-          <Text>{job.location}</Text>
+          <Text>{job.location}： {job.company}</Text>
         </View>
         <View className='job-card__info-item'>
           <JapaneseYen className='job-card__icon' size={16} />
-          <Text className='job-card__salary'>{job.salary}</Text>
+          <Text className='job-card__salary'>待遇: {job.salary}</Text>
         </View>
         <View className='job-card__info-item'>
           <CalendarDays className='job-card__icon' size={16} />

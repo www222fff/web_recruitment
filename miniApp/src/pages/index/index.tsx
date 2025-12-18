@@ -6,7 +6,7 @@ import { JobCard } from '@/components/job-card';
 import type { Job } from '@/lib/types';
 import { getJobs } from '@/lib/api';
 import { JobSearchFilters } from '@/components/job-search-filters';
-import { Header } from '@/components/header';
+
 import { PostJobDialog } from '@/components/post-job-dialog';
 import './index.scss';
 
@@ -103,7 +103,7 @@ export default function Home() {
 
   return (
     <View className='index-page'>
-      <Header onPostJobClick={() => setIsPostJobOpen(true)} />
+
       
       <ScrollView
         scrollY
