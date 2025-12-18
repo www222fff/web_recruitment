@@ -40,6 +40,16 @@ export async function bootstrap(env: Env) {
     )
   `).run();
 
+  // ✅ 3.1 创建 messages 表
+  await db.prepare(`
+    CREATE TABLE IF NOT EXISTS messages (
+      id TEXT PRIMARY KEY,
+      content TEXT NOT NULL,
+      contact TEXT NOT NULL,
+      createdAt TEXT NOT NULL
+    )
+  `).run();
+
   // ✅ 4. seed 数据
   const insertJob = db.prepare(
     `INSERT OR IGNORE INTO jobs

@@ -132,6 +132,35 @@ export default {
         return json({ success: true, id, createdAt }, req, path, { status: 201 });
       }
 
+      // POST /messages
+      if (req.method === 'POST' && path === '/messages') {
+        type MessagePayload = {
+          content: string;
+          contact: string;
+        };
+        const body = await req.json() as MessagePayload;
+        if (!body.content || !body.contact) {
+          return json({ error: 'Missing content or contact' }, req, path, { status: 400 });
+        }
+        const id = generateId();
+        const createdAt = new Date().toISOString();
+        await env.DB.prepare(
+          'INSERT INTO messages (id, content, contact, createdAt) VALUES (?, ?, ?, ?)'
+        ).bind(
+          id,
+          body.content,
+          body.contact,
+          createdAt
+        ).run();
+        return json({ success: true, id, createdAt }, req, path, { status: 201 });
+      }
+
+      // GET /messages
+      if (req.method === 'GET' && path === '/messages') {
+        const { results } = await env.DB.prepare('SELECT * FROM messages ORDER BY datetime(createdAt) DESC, CAST(id AS INTEGER) ASC').all();
+        return json(results, req, path);
+      }
+
       return json({ error: 'Not Found' }, req, path, { status: 404 });
 
     } catch (e: any) {
