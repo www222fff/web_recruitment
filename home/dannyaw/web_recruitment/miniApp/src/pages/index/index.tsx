@@ -61,22 +61,24 @@ export default function Home() {
   });
 
   useEffect(() => {
-    loadJobs();
+    const handleJobPosted = () => {
+      loadJobs();
+    };
     
-    const handleRefresh = () => loadJobs();
-    Taro.eventCenter.on('jobPosted', handleRefresh);
-    Taro.eventCenter.on('modeSwitched', handleRefresh);
+    Taro.eventCenter.on('jobPosted', handleJobPosted);
+    
+    // 初始加载
+    loadJobs();
 
     return () => {
-      Taro.eventCenter.off('jobPosted', handleRefresh);
-      Taro.eventCenter.off('modeSwitched', handleRefresh);
+      Taro.eventCenter.off('jobPosted', handleJobPosted);
     };
   }, []);
 
   const filteredJobs = useMemo(() => {
     return jobs
       .slice()
-      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+      .sort((a, b) => (new Date(b.createdAt || 0).getTime()) - (new Date(a.createdAt || 0).getTime()))
       .filter(job => {
         const keywordMatch =
           !filters.keyword ||

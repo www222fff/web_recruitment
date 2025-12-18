@@ -31,7 +31,6 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
       Taro.showToast({ title: '留言已发布', icon: 'success' });
       setContent('');
       setContact('');
-      Taro.eventCenter.trigger('jobPosted'); // 触发事件
       onClose(); // Close dialog on success
     } catch (e) {
       Taro.hideLoading();
