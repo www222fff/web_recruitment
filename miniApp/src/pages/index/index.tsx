@@ -61,22 +61,22 @@ export default function Home() {
   });
 
   useEffect(() => {
+    // 初始加载
     loadJobs();
     
-    const handleRefresh = () => loadJobs();
-    Taro.eventCenter.on('jobPosted', handleRefresh);
-    Taro.eventCenter.on('modeSwitched', handleRefresh);
+    // 监听全局事件，用于发布职位后刷新列表
+    const handleJobPosted = () => loadJobs();
+    Taro.eventCenter.on('jobPosted', handleJobPosted);
 
     return () => {
-      Taro.eventCenter.off('jobPosted', handleRefresh);
-      Taro.eventCenter.off('modeSwitched', handleRefresh);
+      Taro.eventCenter.off('jobPosted', handleJobPosted);
     };
   }, []);
 
   const filteredJobs = useMemo(() => {
     return jobs
       .slice()
-      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+      .sort((a, b) => (new Date(b.createdAt || 0).getTime()) - (new Date(a.createdAt || 0).getTime()))
       .filter(job => {
         const keywordMatch =
           !filters.keyword ||
@@ -130,7 +130,8 @@ export default function Home() {
 
       {/* Floating Action Button */}
       <View className='fab' onClick={() => setIsPostMessageOpen(true)}>
-        <Plus color='#fff' size={32} />
+        <Plus color='#fff' size={22} />
+        <Text className='fab__text'>发布职位</Text>
       </View>
 
       <PostMessageDialog
