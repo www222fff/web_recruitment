@@ -2,7 +2,6 @@ import { View, Picker, Input, Button, Text, Textarea } from '@tarojs/components'
 import { useState } from 'react';
 import Taro from '@tarojs/taro';
 import { createJob } from '@/lib/api';
-import { jobTypes, locations } from '@/lib/data';
 import type { Job } from '@/lib/types';
 import { X } from 'lucide-react';
 import './post-job-dialog.scss';

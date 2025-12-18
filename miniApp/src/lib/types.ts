@@ -12,10 +12,3 @@ export interface Job {
   contactPhone?: string;
 }
 
-export interface ChatMessage {
-  id: number;
-  chatId: string;
-  sender: 'user' | 'recruiter';
-  content: string;
-  timestamp: number;
-}

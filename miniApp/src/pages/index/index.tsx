@@ -102,9 +102,7 @@ export default function Home() {
 
 
   return (
-    <View className='index-page'>
-
-      
+    <View className='index-page'>      
       <ScrollView
         scrollY
         className='scroll-view'
