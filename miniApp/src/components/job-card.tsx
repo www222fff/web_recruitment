@@ -45,12 +45,12 @@ export function JobCard({ job }: JobCardProps) {
         </View>
         <View className='job-card__info-item'>
           <CalendarDays className='job-card__icon' size={16} />
-          <Text>用工天数: {job.duration}</Text>
+          <Text>工期: {job.duration}</Text>
         </View>
         {job.workingPeriod && (
           <View className='job-card__info-item'>
             <Clock className='job-card__icon' size={16} />
-            <Text>用工时段: {job.workingPeriod}</Text>
+            <Text>时段: {job.workingPeriod}</Text>
           </View>
         )}
         {job.createdAt && (
