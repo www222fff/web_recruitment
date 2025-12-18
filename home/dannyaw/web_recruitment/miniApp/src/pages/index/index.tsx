@@ -61,18 +61,8 @@ export default function Home() {
   });
 
   useEffect(() => {
-    const handleJobPosted = () => {
-      loadJobs();
-    };
-    
-    Taro.eventCenter.on('jobPosted', handleJobPosted);
-    
     // 初始加载
     loadJobs();
-
-    return () => {
-      Taro.eventCenter.off('jobPosted', handleJobPosted);
-    };
   }, []);
 
   const filteredJobs = useMemo(() => {

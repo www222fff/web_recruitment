@@ -14,7 +14,6 @@ export async function postMessage(payload: MessagePayload): Promise<any> {
     method: 'POST',
     data: payload,
   });
-  Taro.eventCenter.trigger('jobPosted');
   return result;
 }
 
