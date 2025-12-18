@@ -98,7 +98,7 @@ export function JobCard({ job }: JobCardProps) {
         )}
         
         {job.createdAt && (
-          <div className="flex items-center text-muted-foreground text-xs pt-1">
+          <div className="flex items-center text-muted-foreground">
             <CalendarDays className="w-4 h-4 mr-1" />
             <span>发布时间: {formatDate(job.createdAt)}</span>
           </div>
