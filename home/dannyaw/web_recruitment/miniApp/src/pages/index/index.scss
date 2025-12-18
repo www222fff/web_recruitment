@@ -102,9 +102,7 @@ $radius: 12rpx; // Larger radius
   position: fixed;
   right: 32rpx;
   bottom: 100rpx; // Adjust for safe area if needed
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 50%;
+  border-radius: 9999rpx; // Pill shape
   background-color: $primary-color;
   display: flex;
   align-items: center;
@@ -112,8 +110,16 @@ $radius: 12rpx; // Larger radius
   box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.25);
   z-index: 100;
   transition: transform 0.2s ease-in-out;
+  padding: 20rpx 32rpx; // Add padding
 
   &:active {
     transform: scale(0.95);
+  }
+
+  &__text {
+    color: #fff;
+    font-size: 30rpx;
+    margin-left: 8rpx;
+    font-weight: 500;
   }
 }

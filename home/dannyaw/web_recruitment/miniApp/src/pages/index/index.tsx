@@ -63,6 +63,14 @@ export default function Home() {
   useEffect(() => {
     // 初始加载
     loadJobs();
+    
+    // 监听全局事件，用于发布职位后刷新列表
+    const handleJobPosted = () => loadJobs();
+    Taro.eventCenter.on('jobPosted', handleJobPosted);
+
+    return () => {
+      Taro.eventCenter.off('jobPosted', handleJobPosted);
+    };
   }, []);
 
   const filteredJobs = useMemo(() => {
@@ -122,7 +130,8 @@ export default function Home() {
 
       {/* Floating Action Button */}
       <View className='fab' onClick={() => setIsPostMessageOpen(true)}>
-        <Plus color='#fff' size={32} />
+        <Plus color='#fff' size={22} />
+        <Text className='fab__text'>发布职位</Text>
       </View>
 
       <PostMessageDialog
