@@ -75,28 +75,20 @@ export default function Home() {
     };
   }, []);
 
-  // 排序+过滤
+  // 仅过滤（API已降序）
   const filteredJobs = useMemo(() => {
-    return jobs
-      .slice()
-      .sort((a, b) => {
-        // createdAt 可能为string或number
-        const aTime = typeof a.createdAt === 'string' ? new Date(a.createdAt).getTime() : a.createdAt;
-        const bTime = typeof b.createdAt === 'string' ? new Date(b.createdAt).getTime() : b.createdAt;
-        return (bTime || 0) - (aTime || 0);
-      })
-      .filter(job => {
-        const keywordMatch =
-          filters.keyword === '' ||
-          job.title.toLowerCase().includes(filters.keyword.toLowerCase()) ||
-          job.company.toLowerCase().includes(filters.keyword.toLowerCase()) ||
-          job.description.toLowerCase().includes(filters.keyword.toLowerCase());
+    return jobs.filter(job => {
+      const keywordMatch =
+        filters.keyword === '' ||
+        job.title.toLowerCase().includes(filters.keyword.toLowerCase()) ||
+        job.company.toLowerCase().includes(filters.keyword.toLowerCase()) ||
+        job.description.toLowerCase().includes(filters.keyword.toLowerCase());
 
-        const typeMatch = filters.type === 'all' || job.type === filters.type;
-        const locationMatch = filters.location === 'all' || job.location === filters.location;
+      const typeMatch = filters.type === 'all' || job.type === filters.type;
+      const locationMatch = filters.location === 'all' || job.location === filters.location;
 
-        return keywordMatch && typeMatch && locationMatch;
-      });
+      return keywordMatch && typeMatch && locationMatch;
+    });
   }, [jobs, filters]);
 
   // 分页

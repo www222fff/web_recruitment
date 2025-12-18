@@ -87,7 +87,7 @@ export default {
 
       // GET /jobs
       if (req.method === 'GET' && path === '/jobs') {
-        const { results } = await env.DB.prepare('SELECT * FROM jobs ORDER BY CAST(id AS INTEGER) ASC').all();
+        const { results } = await env.DB.prepare('SELECT * FROM jobs ORDER BY datetime(createdAt) DESC, CAST(id AS INTEGER) ASC').all();
         return json(results, req, path);
       }
 
@@ -103,6 +103,7 @@ export default {
           duration: string;
           workingPeriod?: string;
           contactPhone?: string;
+          createdAt?: string;
         };
         const body = await req.json() as JobBody;
         const requiredFields: (keyof JobBody)[] = ['title', 'company', 'location', 'salary', 'type', 'description', 'duration'];
@@ -112,8 +113,9 @@ export default {
           }
         }
         const id = generateId();
+        const createdAt = body.createdAt || new Date().toISOString();
         await env.DB.prepare(
-          'INSERT INTO jobs (id, title, company, location, salary, type, description, duration, workingPeriod, contactPhone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+          'INSERT INTO jobs (id, title, company, location, salary, type, description, duration, workingPeriod, contactPhone, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         ).bind(
           id,
           body.title,
@@ -124,9 +126,10 @@ export default {
           body.description,
           body.duration,
           body.workingPeriod ?? null,
-          body.contactPhone ?? null
+          body.contactPhone ?? null,
+          createdAt
         ).run();
-        return json({ success: true, id }, req, path, { status: 201 });
+        return json({ success: true, id, createdAt }, req, path, { status: 201 });
       }
 
       return json({ error: 'Not Found' }, req, path, { status: 404 });

@@ -35,15 +35,16 @@ export async function bootstrap(env: Env) {
       description TEXT NOT NULL,
       duration TEXT NOT NULL,
       workingPeriod TEXT,
-      contactPhone TEXT
+      contactPhone TEXT,
+      createdAt TEXT NOT NULL
     )
   `).run();
 
   // ✅ 4. seed 数据
   const insertJob = db.prepare(
     `INSERT OR IGNORE INTO jobs
-     (id, title, company, location, salary, type, description, duration, workingPeriod, contactPhone)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+     (id, title, company, location, salary, type, description, duration, workingPeriod, contactPhone, createdAt)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   );
 
   for (const job of mockJobs as any[]) {
@@ -57,7 +58,8 @@ export async function bootstrap(env: Env) {
       job.description,
       job.duration,
       job.workingPeriod ?? null,
-      job.contactPhone ?? null
+      job.contactPhone ?? null,
+      job.createdAt || new Date().toISOString()
     ).run();
   }
 
