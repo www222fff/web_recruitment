@@ -51,19 +51,10 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
               value={content}
               onInput={e => setContent(e.detail.value)}
               maxlength={300}
-              placeholder='请输入您的留言...'
+              placeholder='简单描述你要发布的职位，务必请留下微信/手机号，否则应聘者找不到你。'
             />
           </View>
-          <View className='form-item'>
-            <Text className='form-item__label'>联系方式(选填)</Text>
-            <Input
-              name='contact'
-              type='text'
-              placeholder='微信/手机号等'
-              value={contact}
-              onInput={e => setContact(e.detail.value)}
-            />
-          </View>
+          
           <View className='form-footer'>
             <Button className='primary-button' onClick={handleSubmit}>确认发布</Button>
           </View>
