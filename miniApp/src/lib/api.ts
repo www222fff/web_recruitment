@@ -2,7 +2,7 @@
 // 留言类型
 export interface MessagePayload {
   content: string;
-  contact?: string;
+  contact: string;
 }
 
 // 发布留言 API

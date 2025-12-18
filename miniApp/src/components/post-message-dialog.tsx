@@ -19,6 +19,10 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
       Taro.showToast({ title: '请填写留言内容', icon: 'none' });
       return;
     }
+    if (!contact.trim()) {
+      Taro.showToast({ title: '请填写联系方式', icon: 'none' });
+      return;
+    }
     try {
       Taro.showLoading({ title: '发布中...' });
       await postMessage({ content, contact });
@@ -51,7 +55,17 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
               value={content}
               onInput={e => setContent(e.detail.value)}
               maxlength={300}
-              placeholder='简单描述你要发布的职位，务必请留下微信/手机号，否则应聘者找不到你。'
+              placeholder='简单描述你要发布的职位...'
+            />
+          </View>
+          <View className='form-item'>
+            <Text className='form-item__label'>联系方式</Text>
+            <Input
+              name='contact'
+              type='text'
+              value={contact}
+              onInput={e => setContact(e.detail.value)}
+              placeholder='务必请留步'
             />
           </View>
           
