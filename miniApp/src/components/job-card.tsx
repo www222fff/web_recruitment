@@ -86,17 +86,9 @@ export function JobCard({ job }: JobCardProps) {
           <Text>发布时间: {formatDate(job.createdAt)}</Text>
         </View>
         )}
-        {job.contactPhone && (
-          <View className='job-card__info-item' onClick={handleCopy}>
-            <Phone className='job-card__icon' size={16} />
-            <Text>联系方式(点击复制): {job.contactPhone}</Text>
-            <Copy className='job-card__icon job-card__icon--copy' size={14} />
-          </View>
-        )}
       </View>
 
       <Text className='job-card__description'>{job.description}</Text>
-
       <View className='job-card__footer'>
         <Button className='job-card__contact-btn' onClick={handleCommunicate}>
           立即沟通

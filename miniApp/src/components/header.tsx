@@ -12,12 +12,14 @@ type HeaderProps = {
 
 export function Header({ onPostJobClick }: HeaderProps) {
   const [mode, setCurrentMode] = useState<DataSourceMode>('local');
-  const [statusBarHeight, setStatusBarHeight] = useState(20);
+  // 设置更小的 statusBarHeight，避免 header 过高
+  const [statusBarHeight, setStatusBarHeight] = useState(4);
 
   useEffect(() => {
     setCurrentMode(getMode());
+    // 只取较小的 statusBarHeight，避免 header 过高
     const sysInfo = Taro.getSystemInfoSync();
-    setStatusBarHeight(sysInfo.statusBarHeight || 20);
+    setStatusBarHeight(Math.min(sysInfo.statusBarHeight || 4, 8));
 
     // Mini-app event listeners are different from web.
     // We'll rely on parent component to pass down state or re-fetch.
@@ -38,10 +40,6 @@ export function Header({ onPostJobClick }: HeaderProps) {
 
   return (
     <View className='header' style={{ paddingTop: `${statusBarHeight}px` }}>
-      <View className='header__left'>
-        <Building2 color='#90A4E8' size={24} />
-        <Text className='header__title'>蓝领快聘</Text>
-      </View>
       <View className='header__right'>
         <Button
           className='header__mode-btn'

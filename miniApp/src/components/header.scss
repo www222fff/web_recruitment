@@ -7,9 +7,10 @@ $radius: 6rpx;
 
 .header {
   background-color: $nav-bg;
-  padding-left: 32rpx;
-  padding-right: 32rpx;
-  padding-bottom: 12rpx; // You can now change this value and see the effect
+  padding-left: 16rpx;
+  padding-right: 16rpx;
+  padding-top: 8rpx;
+  padding-bottom: 8rpx; // 缩小上下内边距，减小header高度
 
   display: flex;
   align-items: center;
@@ -36,11 +37,11 @@ $radius: 6rpx;
 
   &__mode-btn, &__post-btn {
     // Resetting default button styles
-    padding: 0 24rpx !important;
+    padding: 0 16rpx !important;
     margin: 0 !important;
-    line-height: 56rpx !important;
-    height: 56rpx !important;
-    font-size: 26rpx !important;
+    line-height: 40rpx !important;
+    height: 40rpx !important;
+    font-size: 24rpx !important;
     border-radius: $radius !important;
 
     // Remove border for Taro button

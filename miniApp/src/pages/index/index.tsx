@@ -110,13 +110,7 @@ export default function Home() {
         className='scroll-view'
       >
         <View className='page-container'>
-          <View className='page-header'>
-            <Text className='page-header__title'>寻找最适合您的工作</Text>
-            <Text className='page-header__subtitle'>数千个蓝领职位等着您，马上开始搜索。</Text>
-          </View>
-
           <JobSearchFilters filters={filters} onFiltersChange={setFilters} />
-
           {isLoading ? (
              <View className='loading-container'>
                 <Text>加载中...</Text>
