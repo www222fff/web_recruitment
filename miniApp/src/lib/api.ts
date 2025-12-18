@@ -1,3 +1,17 @@
+
+// 留言类型
+export interface MessagePayload {
+  content: string;
+  contact?: string;
+}
+
+// 发布留言 API
+export async function postMessage(payload: MessagePayload): Promise<any> {
+  return await fetchFromAPI('/messages', {
+    method: 'POST',
+    data: payload,
+  });
+}
 import type { Job } from '@/lib/types';
 import Taro from '@tarojs/taro';
 

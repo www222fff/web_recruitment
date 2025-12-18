@@ -7,7 +7,7 @@ import type { Job } from '@/lib/types';
 import { getJobs } from '@/lib/api';
 import { JobSearchFilters } from '@/components/job-search-filters';
 
-import { PostJobDialog } from '@/components/post-job-dialog';
+import { PostMessageDialog } from '@/components/post-message-dialog';
 import './index.scss';
 
 function NoResults() {
@@ -28,6 +28,7 @@ export default function Home() {
     location: 'all',
   });
   const [isPostJobOpen, setIsPostJobOpen] = useState(false);
+  const [isPostMessageOpen, setIsPostMessageOpen] = useState(false);
   // 分页相关状态
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -102,7 +103,13 @@ export default function Home() {
 
 
   return (
-    <View className='index-page'>      
+    <View className='index-page'>
+      {/* 右上角按钮栏 */}
+      <View className='top-right-actions' style={{ position: 'absolute', top: 10, right: 16, zIndex: 10 }}>
+        <Button size='mini' onClick={() => setIsPostMessageOpen(true)}>
+          发布留言
+        </Button>
+      </View>
       <ScrollView
         scrollY
         className='scroll-view'
@@ -137,6 +144,10 @@ export default function Home() {
       <PostJobDialog
         isOpen={isPostJobOpen}
         onClose={() => setIsPostJobOpen(false)}
+      />
+      <PostMessageDialog
+        isOpen={isPostMessageOpen}
+        onClose={() => setIsPostMessageOpen(false)}
       />
     </View>
   );
