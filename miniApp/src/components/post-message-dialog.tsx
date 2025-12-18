@@ -2,6 +2,7 @@ import { View, Input, Button, Text, Textarea } from '@tarojs/components';
 import { useState } from 'react';
 import Taro from '@tarojs/taro';
 import { postMessage } from '@/lib/api';
+import './post-message-dialog.scss';
 
 type PostMessageDialogProps = {
   isOpen: boolean;
@@ -30,7 +31,7 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
       Taro.showToast({ title: '留言已发布', icon: 'success' });
       setContent('');
       setContact('');
-      onClose();
+      onClose(); // Close dialog on success
     } catch (e) {
       Taro.hideLoading();
       Taro.showToast({ title: '发布失败，请重试', icon: 'none' });
@@ -42,7 +43,7 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
       <View className='float-layout__overlay' onClick={onClose} />
       <View className='float-layout__container'>
         <View className='float-layout__header'>
-          <Text className='float-layout__title'>发布留言</Text>
+          <Text className='float-layout__title'>发布招工信息</Text>
           <View onClick={onClose} className='float-layout__close'>
             ×
           </View>
@@ -55,17 +56,20 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
               value={content}
               onInput={e => setContent(e.detail.value)}
               maxlength={300}
-              placeholder='简单描述你要发布的职位...'
+              placeholder='简单描述你要发布的职位，如工种、地点、待遇...'
+              placeholderClass='textarea-placeholder'
             />
           </View>
           <View className='form-item'>
             <Text className='form-item__label'>联系方式</Text>
             <Input
+              className='form-item__input'
               name='contact'
               type='text'
               value={contact}
               onInput={e => setContact(e.detail.value)}
-              placeholder='务必请留步'
+              placeholder='请留下您的电话或微信号'
+              placeholderClass='input-placeholder'
             />
           </View>
           

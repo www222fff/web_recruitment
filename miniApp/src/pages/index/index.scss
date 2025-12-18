@@ -1,14 +1,15 @@
+
 $primary-color: #5468ff;
 $secondary-color: #90a4e8;
-$text-color-primary: #1f2937;
-$text-color-secondary: #6b7280;
-$text-color-light: #4b5563;
-$card-bg: #ffffff;
-$page-bg: #f7f8fa;
-$border-color: #e5e7eb;
-$tag-bg: #eef2ff;
-$tag-text: #4338ca;
-$radius: 8rpx;
+$text-color-primary: #f0f2f5;
+$text-color-secondary: #a0aec0;
+$text-color-light: #cbd5e0;
+$card-bg: #1A202C; // Darker card
+$page-bg: #171923;  // Dark background
+$border-color: #2D3748;
+$tag-bg: #2b354e;
+$tag-text: #a3bfd9;
+$radius: 12rpx; // Larger radius
 
 .index-page {
   background-color: $page-bg;
@@ -93,4 +94,25 @@ $radius: 8rpx;
 .load-more-btn {
   color: $primary-color;
   cursor: pointer;
+}
+
+// Floating Action Button
+.fab {
+  position: fixed;
+  right: 32rpx;
+  bottom: 100rpx; // Adjust for safe area if needed
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background-color: $primary-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.25);
+  z-index: 100;
+  transition: transform 0.2s ease-in-out;
+
+  &:active {
+    transform: scale(0.95);
+  }
 }

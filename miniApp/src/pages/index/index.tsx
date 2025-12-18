@@ -1,13 +1,13 @@
-
 import { useState, useMemo, useEffect } from 'react';
-import { View, ScrollView, Text, Button } from '@tarojs/components';
+import { View, ScrollView, Text } from '@tarojs/components';
 import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 import { JobCard } from '@/components/job-card';
 import type { Job } from '@/lib/types';
 import { getJobs } from '@/lib/api';
 import { JobSearchFilters } from '@/components/job-search-filters';
-
 import { PostMessageDialog } from '@/components/post-message-dialog';
+import { Header } from '@/components/header';
+import { Plus } from 'lucide-react';
 import './index.scss';
 
 function NoResults() {
@@ -29,7 +29,6 @@ export default function Home() {
   });
 
   const [isPostMessageOpen, setIsPostMessageOpen] = useState(false);
-  // 分页相关状态
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
@@ -46,7 +45,6 @@ export default function Home() {
     }
   };
 
-  // Share to friends (分享给朋友)
   useShareAppMessage(() => {
     return {
       title: '一起干',
@@ -55,7 +53,6 @@ export default function Home() {
     };
   });
 
-  // Share to Moments/Timeline (分享到朋友圈)
   useShareTimeline(() => {
     return {
       title: '一起干',
@@ -67,7 +64,6 @@ export default function Home() {
   useEffect(() => {
     loadJobs();
     
-    // Listen for events to refresh data
     const handleRefresh = () => loadJobs();
     Taro.eventCenter.on('jobPosted', handleRefresh);
     Taro.eventCenter.on('modeSwitched', handleRefresh);
@@ -96,20 +92,13 @@ export default function Home() {
       });
   }, [jobs, filters]);
 
-  // 分页后的职位
   const pagedJobs = useMemo(() => {
     return filteredJobs.slice(0, currentPage * pageSize);
   }, [filteredJobs, currentPage, pageSize]);
 
-
   return (
     <View className='index-page'>
-      {/* 右上角按钮栏 */}
-      <View className='top-right-actions' style={{ position: 'absolute', top: 10, right: 16, zIndex: 10 }}>
-        <Button size='mini' onClick={() => setIsPostMessageOpen(true)}>
-          发布留言
-        </Button>
-      </View>
+      <Header title='寻找最适合您的工作' />
       <ScrollView
         scrollY
         className='scroll-view'
@@ -140,6 +129,11 @@ export default function Home() {
           )}
         </View>
       </ScrollView>
+
+      {/* Floating Action Button */}
+      <View className='fab' onClick={() => setIsPostMessageOpen(true)}>
+        <Plus color='#fff' size={32} />
+      </View>
 
       <PostMessageDialog
         isOpen={isPostMessageOpen}
