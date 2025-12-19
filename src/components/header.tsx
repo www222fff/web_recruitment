@@ -19,7 +19,7 @@ export function Header() {
           </Link>
           <div className="flex items-center gap-3">
              <Link href="/messages" passHref>
-                <Button variant="outline">
+                <Button>
                     <MessageSquare className="mr-2 h-4 w-4"/>
                     留言查看
                 </Button>
