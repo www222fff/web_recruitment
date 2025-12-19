@@ -1,4 +1,4 @@
-import { View, Input, Button, Text, Textarea } from '@tarojs/components';
+import { View, Input, Button, Text, Textarea, CoverView, CoverImage } from '@tarojs/components';
 import { useState } from 'react';
 import Taro from '@tarojs/taro';
 import { postMessage } from '@/lib/api';
@@ -9,11 +9,13 @@ type PostMessageDialogProps = {
   onClose: () => void;
 };
 
+// Base64 encoded close icon (white 'X')
+const closeIconBase64 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXgiPjxwYXRoIGQ9Ik1NMTggNmwtMTIgMTJNNiA2bDEyIDEyIi8+PC9zdmc+';
+
+
 export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
   const [content, setContent] = useState('');
   const [contact, setContact] = useState('');
-
-  if (!isOpen) return null;
 
   const handleSubmit = async () => {
     if (!content.trim()) {
@@ -40,14 +42,14 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
   };
 
   return (
-    <View className='float-layout'>
-      <View className='float-layout__overlay' onClick={onClose} />
+    <View className={`float-layout ${isOpen ? 'float-layout--active' : ''}`}>
+      <CoverView className='float-layout__overlay' onClick={onClose} />
       <View className='float-layout__container'>
         <View className='float-layout__header'>
           <Text className='float-layout__title'>发布招工信息</Text>
-          <View onClick={onClose} className='float-layout__close'>
-            ×
-          </View>
+          <CoverView className='float-layout__close' onClick={onClose}>
+            <CoverImage src={closeIconBase64} className='float-layout__close-icon' />
+          </CoverView>
         </View>
         <View className='form-content'>
           <View className='form-item'>
@@ -59,6 +61,7 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
               maxlength={300}
               placeholder='简单描述你要发布的职位，如工种、地点、待遇...'
               placeholderClass='textarea-placeholder'
+              disableDefaultPadding={false}
             />
           </View>
           <View className='form-item'>
