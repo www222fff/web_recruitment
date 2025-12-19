@@ -131,7 +131,7 @@ export default function Home() {
       {/* Floating Action Button */}
       <View className='fab' onClick={() => setIsPostMessageOpen(true)}>
         <Plus color='#fff' size={22} />
-        <Text className='fab__text'>发布职位</Text>
+        <Text className='fab__text'>发布留言</Text>
       </View>
 
       <PostMessageDialog
