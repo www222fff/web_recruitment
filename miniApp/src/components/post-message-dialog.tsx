@@ -41,19 +41,28 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
     }
   };
 
+  // 阻止事件冒泡的空函数
   const stopPropagation = (e: any) => {
     e.stopPropagation();
+  };
+
+  if (!isOpen) {
+    return null;
   }
 
   return (
-    <View className={`float-layout ${isOpen ? 'float-layout--active' : ''}`}>
-      <CoverView className='float-layout__overlay' onClick={onClose} />
-      <View className='float-layout__container' catchMove onClick={stopPropagation}>
+    <View className='float-layout'>
+      {/* 背景遮罩层，点击关闭 */}
+      <View className='float-layout__overlay' onClick={onClose} />
+      
+      {/* 弹窗内容区域，点击这里不会关闭 */}
+      <View className='float-layout__container' onClick={stopPropagation}>
         <View className='float-layout__header'>
           <Text className='float-layout__title'>发布招工信息</Text>
-          <CoverView className='float-layout__close' onClick={onClose}>
+          {/* 右上角关闭按钮 */}
+          <View className='float-layout__close' onClick={onClose}>
             <CoverImage src={closeIconBase64} className='float-layout__close-icon' />
-          </CoverView>
+          </View>
         </View>
         <View className='form-content'>
           <View className='form-item'>

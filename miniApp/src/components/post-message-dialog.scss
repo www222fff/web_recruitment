@@ -14,26 +14,25 @@ $radius: 16rpx;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1; // Initially hidden
-  pointer-events: none;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  
+  // 使用 visibility + transition 来控制显示和动画
+  // visibility: hidden;
+  // opacity: 0;
+  // transition: visibility 0.3s, opacity 0.3s;
 
-  // Active state
-  &--active {
-    z-index: 999;
-    pointer-events: auto;
+  // &.float-layout--active {
+  //   visibility: visible;
+  //   opacity: 1;
 
-    .float-layout__overlay {
-      opacity: 1;
-    }
-
-    .float-layout__container {
-      transform: translateY(0);
-    }
-  }
+  //   .float-layout__container {
+  //     transform: translateY(0);
+  //   }
+  // }
 
   &__overlay {
     position: absolute;
@@ -42,8 +41,7 @@ $radius: 16rpx;
     width: 100%;
     height: 100%;
     background-color: $overlay-bg;
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
+    // transition: opacity 0.3s ease-out;
   }
 
   &__container {
@@ -53,11 +51,12 @@ $radius: 16rpx;
     padding: 32rpx;
     padding-bottom: calc(32rpx + constant(safe-area-inset-bottom));
     padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
-    z-index: 1000;
+    z-index: 1000; // 确保在 overlay 之上
     width: 100%;
     box-sizing: border-box;
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    // 初始位置在屏幕外，通过 active class 移动进来
+    // transform: translateY(100%);
+    // transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   &__header {
@@ -65,7 +64,7 @@ $radius: 16rpx;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 40rpx;
-    position: relative; // For close button absolute positioning
+    position: relative;
   }
 
   &__title {
@@ -86,7 +85,7 @@ $radius: 16rpx;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1001; // Ensure it's above everything
+    z-index: 1001; // 确保在最上层
   }
 
   &__close-icon {
@@ -119,7 +118,7 @@ $radius: 16rpx;
       line-height: 1.5;
 
       &.form-item__textarea {
-        height: 200rpx; // Fixed height for Textarea
+        height: 200rpx;
       }
       &.form-item__input {
         min-height: 96rpx;
