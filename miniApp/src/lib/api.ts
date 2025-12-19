@@ -1,4 +1,5 @@
 
+
 // 留言类型
 export interface MessagePayload {
   content: string;
@@ -57,4 +58,5 @@ export async function createJob(job: Omit<Job, 'id' | 'createdAt'>): Promise<Job
   });
   return result;
 }
+
 

@@ -3,7 +3,7 @@ import { View, ScrollView, Text } from '@tarojs/components';
 import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 import { JobCard } from '@/components/job-card';
 import type { Job } from '@/lib/types';
-import { getJobs, getConfig } from '@/lib/api';
+import { getJobs } from '@/lib/api';
 import { JobSearchFilters } from '@/components/job-search-filters';
 import { PostMessageDialog } from '@/components/post-message-dialog';
 import { Plus } from 'lucide-react';
@@ -29,7 +29,6 @@ export default function Home() {
 
   const [isPostMessageOpen, setIsPostMessageOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [showPostButton, setShowPostButton] = useState(false);
   const pageSize = 10;
 
   const loadJobs = async () => {
@@ -42,19 +41,6 @@ export default function Home() {
       setJobs([]);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const loadConfig = async () => {
-    try {
-      const config = await getConfig();
-      if (config && typeof config.showPostJobButton === 'boolean') {
-        setShowPostButton(config.showPostJobButton);
-      }
-    } catch (error) {
-      console.error('Failed to load config:', error);
-      // 如果加载配置失败，可以根据业务决定是否默认显示
-      setShowPostButton(false);
     }
   };
 
@@ -76,7 +62,6 @@ export default function Home() {
 
   useEffect(() => {
     loadJobs();
-    loadConfig();
   }, []);
 
   const filteredJobs = useMemo(() => {
@@ -135,12 +120,10 @@ export default function Home() {
       </ScrollView>
 
       {/* Floating Action Button */}
-      {showPostButton && (
-        <View className='fab' onClick={() => setIsPostMessageOpen(true)}>
-          <Plus color='#fff' size={22} />
-          <Text className='fab__text'>联系发布</Text>
-        </View>
-      )}
+      <View className='fab' onClick={() => setIsPostMessageOpen(true)}>
+        <Plus color='#fff' size={22} />
+        <Text className='fab__text'>联系发布</Text>
+      </View>
 
       <PostMessageDialog
         isOpen={isPostMessageOpen}
