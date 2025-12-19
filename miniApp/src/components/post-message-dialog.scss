@@ -74,7 +74,7 @@ $radius: 16rpx;
 
   &__description {
     font-size: 28rpx;
-    color: $text-secondary; // Keep secondary for less important text
+    color: $text-highlight; // Use highlight color for better readability
     line-height: 1.6;
     display: block;
     margin-bottom: 32rpx;
