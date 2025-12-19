@@ -41,10 +41,14 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
     }
   };
 
+  const stopPropagation = (e: any) => {
+    e.stopPropagation();
+  }
+
   return (
     <View className={`float-layout ${isOpen ? 'float-layout--active' : ''}`}>
       <CoverView className='float-layout__overlay' onClick={onClose} />
-      <View className='float-layout__container'>
+      <View className='float-layout__container' catchMove onClick={stopPropagation}>
         <View className='float-layout__header'>
           <Text className='float-layout__title'>发布招工信息</Text>
           <CoverView className='float-layout__close' onClick={onClose}>
