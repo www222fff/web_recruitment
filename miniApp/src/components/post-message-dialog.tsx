@@ -58,7 +58,7 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
       {/* 弹窗内容区域，点击这里不会关闭 */}
       <View className='float-layout__container' onClick={stopPropagation}>
         <View className='float-layout__header'>
-          <Text className='float-layout__title'>发布招工信息</Text>
+          <Text className='float-layout__title'>发布信息</Text>
           {/* 右上角关闭按钮 */}
           <View className='float-layout__close' onClick={onClose}>
             <CoverImage src={closeIconBase64} className='float-layout__close-icon' />
@@ -72,7 +72,7 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
               value={content}
               onInput={e => setContent(e.detail.value)}
               maxlength={300}
-              placeholder='简单描述你要发布的职位，如工种、地点、待遇...'
+              placeholder='简单描述...'
               placeholderClass='textarea-placeholder'
               disableDefaultPadding={false}
             />
