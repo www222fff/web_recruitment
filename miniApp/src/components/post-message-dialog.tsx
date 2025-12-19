@@ -1,6 +1,7 @@
 import { View, Button, Text, CoverView, CoverImage } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import './post-message-dialog.scss';
+import { stopPropagation } from '@/lib/utils';
 
 type PostMessageDialogProps = {
   isOpen: boolean;
@@ -25,9 +26,10 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
           duration: 2000
         });
       },
-      fail: () => {
+      fail: (res) => {
+        console.log('Clipboard fail:', res)
         Taro.showToast({
-          title: '复制失败',
+          title: '复制失败，请重试',
           icon: 'none'
         });
       }
@@ -39,18 +41,15 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
   }
 
   return (
-    <View className='float-layout float-layout--active'>
-      {/* 背景遮罩层，点击关闭 */}
-      <CoverView className='float-layout__overlay' onClick={onClose} />
-      
-      {/* 弹窗内容区域 */}
-      <View className='float-layout__container' catchMove>
+    <View className='float-layout' onClick={onClose}>
+      {/* 弹窗内容区域 - catchMove 阻止事件穿透 */}
+      <View className='float-layout__container' catchMove onClick={stopPropagation}>
         <View className='float-layout__header'>
           <Text className='float-layout__title'>联系管理员发布</Text>
-          {/* 右上角关闭按钮 */}
-          <CoverView className='float-layout__close' onClick={onClose}>
-            <CoverImage src={closeIconBase64} className='float-layout__close-icon' />
-          </CoverView>
+          {/* CoverView is needed for buttons on top of native components like maps, but here a simple View is better for event handling */}
+          <View className='float-layout__close' onClick={onClose}>
+            <CoverImage src={closeIconBase64} style={{width: '24rpx', height: '24rpx'}} />
+          </View>
         </View>
 
         <View className='dialog-content'>
@@ -58,7 +57,8 @@ export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
             请添加下方客服微信，并告知您的用工需求，管理员将为您审核并发布信息。
           </Text>
           <View className='dialog-content__wechat-id'>
-            <Text selectable>{ADMIN_WECHAT_ID}</Text>
+            {/* Text is not selectable, so user must use the button */}
+            <Text className='dialog-content__wechat-text'>{ADMIN_WECHAT_ID}</Text>
           </View>
           <View className='dialog-footer'>
             <Button className='primary-button' onClick={handleCopy}>
