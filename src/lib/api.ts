@@ -1,28 +1,30 @@
 import type { Job } from '@/lib/types';
 import { mockJobs } from '@/lib/data';
-import { getMode } from '@/lib/config';
+
+interface Message {
+  id: string;
+  content: string;
+  contact: string;
+  createdAt: string;
+}
 
 function getAPIBaseURL(): string {
   if (typeof window === 'undefined') {
-    return process.env.NEXT_PUBLIC_API_URL || '';
+    return process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8787';
   }
-
-  const configuredURL = process.env.NEXT_PUBLIC_API_URL;
-  if (configuredURL) {
-    return configuredURL;
-  }
-
-  return '';
+  return process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8787';
 }
 
-async function fetchFromAPI(endpoint: string): Promise<Job[]> {
+async function fetchFromAPI(endpoint: string, options: RequestInit = {}): Promise<any> {
   const baseURL = getAPIBaseURL();
-  const url = baseURL ? `${baseURL}${endpoint}` : `/api${endpoint}`;
+  // Ensure the URL is correctly formed, especially for server-side rendering
+  const url = endpoint.startsWith('http') ? endpoint : `${baseURL}${endpoint}`;
 
   const response = await fetch(url, {
-    method: 'GET',
+    ...options,
     headers: {
       'Content-Type': 'application/json',
+      ...options.headers,
     },
   });
 
@@ -34,58 +36,49 @@ async function fetchFromAPI(endpoint: string): Promise<Job[]> {
 }
 
 export async function getJobs(): Promise<Job[]> {
-  const mode = getMode();
-
-  if (mode === 'api') {
-    try {
-      return await fetchFromAPI('/jobs');
-    } catch (error) {
-      console.error('Failed to fetch jobs from API, falling back to local data:', error);
-      return mockJobs;
-    }
+  try {
+    const jobs = await fetchFromAPI('/jobs');
+    // The API returns jobs sorted by createdAt desc, so no extra sorting needed here.
+    return jobs;
+  } catch (error) {
+    console.warn('Failed to fetch jobs from API, falling back to local mock data:', error);
+    // Sort mock jobs to be consistent with API response
+    return mockJobs.slice().sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
-
-  return mockJobs;
 }
 
+
 export async function createJob(job: Omit<Job, 'id' | 'createdAt'>): Promise<Job> {
-  const mode = getMode();
-
-  if (mode === 'api') {
     try {
-      const baseURL = getAPIBaseURL();
-      const url = baseURL ? `${baseURL}/jobs` : '/api/jobs';
-
-      // 自动生成createdAt字段
       const jobWithDate = { ...job, createdAt: new Date().toISOString() };
-
-      const response = await fetch(url, {
+      const result = await fetchFromAPI('/jobs', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify(jobWithDate),
       });
-
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
-      }
-
-      const result = await response.json();
       return {
         ...jobWithDate,
         id: result.id,
       };
     } catch (error) {
-      console.error('Failed to create job via API:', error);
-      throw error;
+      console.error('Failed to create job via API. Using local mock creation:', error);
+      // Fallback for local development if API is down
+      const newId = Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
+      const newJob = {
+        ...job,
+        id: newId,
+        createdAt: new Date().toISOString(),
+      };
+      // Note: This won't persist, it's just for UI feedback during fallback.
+      mockJobs.unshift(newJob);
+      return newJob;
     }
-  }
+}
 
-  const id = Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
-  return {
-    ...job,
-    id,
-    createdAt: new Date().toISOString(),
-  };
+export async function getMessages(): Promise<Message[]> {
+    try {
+        return await fetchFromAPI('/messages');
+    } catch (error) {
+        console.warn('Failed to fetch messages from API, returning empty array:', error);
+        return []; // In case of error, return empty array as there's no mock for messages
+    }
 }

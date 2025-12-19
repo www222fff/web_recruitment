@@ -34,7 +34,7 @@ function getCacheMaxAge(path: string): number {
   if (path === '/daily-word') return 600; // 10 分钟，动态内容
   if (path === '/daily-words') return 3600; // 1 小时
   if (path.includes('/lessons') || path.includes('/flashcards')) return 3600;
-  return 3600;
+  return 300; // 默认5分钟
 }
 
 // ✅ JSON 响应统一带 CORS 和 Cache-Control
@@ -42,7 +42,7 @@ function json(data: unknown, req?: Request, path?: string, init?: ResponseInit) 
   const dataStr = JSON.stringify(data);
   const eTag = generateETag(dataStr);
 
-  const maxAge = path ? getCacheMaxAge(path) : 3600;
+  const maxAge = path ? getCacheMaxAge(path) : 300;
   const cacheControl = `public, max-age=${maxAge}`;
 
   // 检查 ETag 缓存验证 (304 Not Modified)
@@ -79,7 +79,7 @@ export default {
       await bootstrap(env);
 
       const url = new URL(req.url);
-      const path = url.pathname.replace(/\/$/, '');
+      path = url.pathname.replace(/\/$/, '');
 
       if (req.method === 'OPTIONS') {
         return new Response(null, { headers: corsHeaders() });
@@ -157,7 +157,7 @@ export default {
 
       // GET /messages
       if (req.method === 'GET' && path === '/messages') {
-        const { results } = await env.DB.prepare('SELECT * FROM messages ORDER BY datetime(createdAt) DESC, CAST(id AS INTEGER) ASC').all();
+        const { results } = await env.DB.prepare('SELECT * FROM messages ORDER BY datetime(createdAt) DESC').all();
         return json(results, req, path);
       }
 
