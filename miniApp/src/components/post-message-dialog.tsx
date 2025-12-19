@@ -12,7 +12,7 @@ type PostMessageDialogProps = {
 const closeIconBase64 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXgiPjxwYXRoIGQ9Ik1NMTggNmwtMTIgMTJNNiA2bDEyIDEyIi8+PC9zdmc+';
 
 // 客服微信号
-const ADMIN_WECHAT_ID = 'YOUR_WECHAT_ID';
+const ADMIN_WECHAT_ID = 'longxingtianxia_2026';
 
 export function PostMessageDialog({ isOpen, onClose }: PostMessageDialogProps) {
   
