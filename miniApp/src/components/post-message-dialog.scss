@@ -1,5 +1,6 @@
+
 $primary-color: #5468ff;
-$dialog-bg: #2D3748;      // Dark background for dialog
+$dialog-bg: #2D3748;
 $overlay-bg: rgba(0, 0, 0, 0.6);
 $text-primary: #f0f2f5;
 $text-secondary: #a0aec0;
@@ -17,6 +18,7 @@ $radius: 16rpx;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
 
   &__overlay {
     position: absolute;
@@ -25,7 +27,6 @@ $radius: 16rpx;
     width: 100%;
     height: 100%;
     background-color: $overlay-bg;
-    // Animation for fade in
     animation: fadeIn 0.3s ease-out forwards;
   }
 
@@ -37,8 +38,9 @@ $radius: 16rpx;
     padding-bottom: calc(32rpx + constant(safe-area-inset-bottom));
     padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
     z-index: 1;
-    // Animation for slide up
-    animation: slideUp 0.4s ease-out forwards;
+    width: 100%; // 容器宽度为100%
+    box-sizing: border-box;
+    animation: slideUp 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
   }
 
   &__header {
@@ -60,6 +62,9 @@ $radius: 16rpx;
     font-weight: 300;
     line-height: 1;
     cursor: pointer;
+    padding: 8rpx; // 增大点击区域
+    position: relative;
+    right: -8rpx;
   }
 }
 
@@ -86,18 +91,17 @@ $radius: 16rpx;
       box-sizing: border-box;
       line-height: 1.5;
 
-      // For native components like Input/Textarea, min-height is better than height
       &.form-item__textarea {
         min-height: 200rpx;
         height: auto;
       }
       &.form-item__input {
-        min-height: 96rpx; // To match padding and font-size
+        min-height: 96rpx;
         height: 96rpx;
       }
     }
     .textarea-placeholder, .input-placeholder {
-       color: #718096; // Placeholder color
+       color: #718096;
     }
   }
 
@@ -106,7 +110,6 @@ $radius: 16rpx;
   }
 }
 
-// Re-use global primary button style
 .primary-button {
   width: 100%;
   height: 96rpx;
@@ -117,6 +120,7 @@ $radius: 16rpx;
   border-radius: 12rpx;
   font-size: 32rpx;
   font-weight: 500;
+  border: none;
 
   &::after {
     border: none;
@@ -126,7 +130,6 @@ $radius: 16rpx;
   }
 }
 
-// Animations
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
